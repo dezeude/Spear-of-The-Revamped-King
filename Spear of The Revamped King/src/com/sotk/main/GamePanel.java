@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		long now;
 		long lastTime = System.nanoTime();
 		long timer = 0;
-		int ticks = 0;
+//		int ticks = 0;
 		
 		while(running) {
 			//Notch way
@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			
 			
 			if(delta >= 1){
-				ticks++;
+//				ticks++;
 				--delta;
 //				System.out.println(dt);
 				update();
@@ -88,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			
 			if(timer >= oneSecond){
 //				System.out.println("Ticks and Frames: " + ticks);
-				ticks = 0;
+//				ticks = 0;
 				timer = 0;
 			}
 			
