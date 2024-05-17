@@ -7,6 +7,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/David Ezeude/Downloads/joml-1.10.5.jar"/>
+	<classpathentry kind="lib" path="res/libs/joml-1.10.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
