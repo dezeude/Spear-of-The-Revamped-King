@@ -241,7 +241,7 @@ public class Player extends Creature {
 		if(facingRight) {
 			curFrame = curAnim.getCurFrame();
 			
-			if(curAnim.isAttackFrame()) { //if the attack frame exists
+			if(curAnim.hasAttackFrame()) { //if the attack frame exists
 				Rectangle curAttackFrame = curAnim.getAttackFrame();
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
 											   position.y - yOff + curAttackFrame.y,
@@ -254,7 +254,7 @@ public class Player extends Creature {
 		else {
 			curFrame = curAnim.getMirrorFrame();
 			
-			if(curAnim.isAttackFrame()) { //if the attack frame exists
+			if(curAnim.hasAttackFrame()) { //if the attack frame exists
 				Rectangle curAttackFrame = curAnim.getAttackFrame();
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
 											   position.y - yOff + curAttackFrame.y,

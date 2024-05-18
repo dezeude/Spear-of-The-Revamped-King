@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 
 public class Animation {
-	private VolatileImage testImage; //may use volatile image to get rid of flashing tiles
 	private float index;
 	private float incrementer;
 	BufferedImage[]frames;
@@ -129,7 +128,7 @@ public class Animation {
 		return (int) (Math.floor(index) % frames.length);
 	}
 	
-	public boolean isAttackFrame() {
+	public boolean hasAttackFrame() {
 		if(attackFrames == null)
 			return false;
 		if(attackFrames[getIndex()] != null)
