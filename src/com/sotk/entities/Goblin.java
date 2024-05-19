@@ -80,6 +80,7 @@ public class Goblin extends Creature {
 
 	@Override
 	public void update() {
+		processStates();
 		if(alive){
 			velocity.x = 0;
 			if(level.isPlayerAlive() && level.distFromPlayer(getBounds()) <= 250) {//if the player is alive
