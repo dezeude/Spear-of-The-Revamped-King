@@ -16,7 +16,7 @@ public class WalkingState extends CreatureState {
 			// set state to idle
 			return new IdleState();
 		}
-		return this;
+		return null;
 
 	}
 

@@ -34,9 +34,10 @@ public abstract class Creature extends Entity {
 		CreatureState state = this.state.update(this);
 
 		this.state = state;
-		if (!this.state.getClass().equals(state.getClass()))
+		if (state != null) {// null state means our state didn't change
 			// if we're entering a new state
 			state.enter(this);
+		}
 	}
 
 	public void setState(CreatureState state) {

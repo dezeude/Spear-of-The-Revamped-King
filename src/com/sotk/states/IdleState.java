@@ -17,7 +17,7 @@ public class IdleState extends CreatureState {
 			return new WalkingState();
 		} 
 		//creature take hit handled in creature class
-		return this;
+		return null;
 	}
 
 

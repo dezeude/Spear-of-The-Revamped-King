@@ -23,7 +23,7 @@ public class InvincibleState extends CreatureState {
 			return new DeadState();
 		}
 
-		return this;
+		return null;
 
 	}
 
