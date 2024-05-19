@@ -32,11 +32,11 @@ public abstract class Creature extends Entity {
 
 	public void processStates() {
 		CreatureState state = this.state.update(this);
-
-		this.state = state;
-		if (state != null) {// null state means our state didn't change
+		// null state means our state didn't change
+		if (state != null) {
 			// if we're entering a new state
-			state.enter(this);
+			this.state = state;
+			this.state.enter(this);
 		}
 	}
 
