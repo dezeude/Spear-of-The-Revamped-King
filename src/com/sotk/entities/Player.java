@@ -5,17 +5,15 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 import com.sotk.levels.Level;
-import com.sotk.main.GamePanel;
-import com.sotk.main.Launcher;
 import com.sotk.managers.Animation;
 import com.sotk.managers.Camera;
 import com.sotk.managers.KeyManager;
+import com.sotk.states.playerstates.PlayerState;
 
 public class Player extends Creature {
 //	private int renderWidth = 150, renderHeight = 150;
@@ -32,15 +30,15 @@ public class Player extends Creature {
 	
 	//animations
 //	AnimationManager animationManager;
-	Animation idle;
-	Animation run;
+	public Animation curAnim;
+	public Animation idle;
+	public Animation run;
 //	Animation attack1;
-	Animation attack2;
-	Animation jump;
-	Animation fall;
-	Animation curAnim;
-	Animation takeHit;
-	Animation death;
+	public Animation attack2;
+	public Animation jump;
+	public Animation fall;
+	public Animation takeHit;
+	public Animation death;
 	BufferedImage curFrame;
 	
 	boolean inAnimation = false; //for important animations that cannot be cancelled until finished
@@ -49,6 +47,8 @@ public class Player extends Creature {
 	long lastClicked;
 	
 	Level level;
+	
+	public PlayerState state;
 	
 	public Player(int x, int y, Level level) {
 		//make the width and height of the gamePanel static
@@ -60,7 +60,7 @@ public class Player extends Creature {
 		Camera.setDivisor(10);
 		this.level = level;
 //		animationManager = new AnimationManager();
-		
+		state = PlayerState.idle;
 		top = false;
 		bottom = false;
 		left = false;
