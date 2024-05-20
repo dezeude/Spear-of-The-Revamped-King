@@ -7,17 +7,21 @@ import java.util.ArrayList;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 
+import com.sotk.managers.Animation;
 import com.sotk.managers.TileMap;
-import com.sotk.states.CreatureState;
-import com.sotk.states.IdleState;
+import com.sotk.states.creaturestates.AttackingState;
+import com.sotk.states.creaturestates.CreatureState;
+import com.sotk.states.creaturestates.DeadState;
+import com.sotk.states.creaturestates.IdleState;
+import com.sotk.states.creaturestates.InvincibleState;
 
 public abstract class Creature extends Entity {
 	public boolean top = false, bottom = false, left = false, right = false;
 	protected int bw, bh, health;
-	private int TILELENGTH = TileMap.TILELENGTH;
 //	protected float velx,vely;
 //	protected float gravity = 0.45f;
-	public boolean facingRight = true, inAnimation = false, invincible = false, alive = true, attacking = false;
+	public boolean facingRight = true;//, invincible = false;
+	public boolean alive = true;
 	protected String[] extras;
 
 	public Vector2f velocity = new Vector2f();
@@ -30,22 +34,23 @@ public abstract class Creature extends Entity {
 
 	public boolean canRemove = false; // field for when the creature can be despawned.
 
+	//animations
+	public Animation curAnim;
+	public Animation idle;
+	public Animation run;
+	public Animation takeHit;
+	public Animation death;
+	public Animation attack;
+	
 	public void processStates() {
 		CreatureState state = this.state.update(this);
 		// null state means our state didn't change
 		if (state != null) {
 			// if we're entering a new state
+			curAnim.reset();
 			this.state = state;
 			this.state.enter(this);
 		}
-	}
-
-	public void setState(CreatureState state) {
-		this.state = state;
-	}
-
-	public CreatureState getState() {
-		return state;
 	}
 
 	@Override
@@ -81,11 +86,11 @@ public abstract class Creature extends Entity {
 		right = false;
 		// get all the possible tiles in a list
 		ArrayList<Rectangle> hitList = new ArrayList();
-		for (int i = position.y / TILELENGTH - 2; i < (position.y + bh) / TILELENGTH + 2; i++) {
-			for (int j = position.x / TILELENGTH - 2; j < (position.x + bw) / TILELENGTH + 2; j++) {
+		for (int i = position.y / TileMap.TILELENGTH - 2; i < (position.y + bh) / TileMap.TILELENGTH + 2; i++) {
+			for (int j = position.x / TileMap.TILELENGTH - 2; j < (position.x + bw) / TileMap.TILELENGTH + 2; j++) {
 				if (i >= 0 && i < TileMap.map.length && j >= 0 && j < TileMap.map[i].length
 						&& TileMap.map[i][j] - 1 > -1)
-					hitList.add(new Rectangle(j * TILELENGTH, i * TILELENGTH, TILELENGTH, TILELENGTH));
+					hitList.add(new Rectangle(j * TileMap.TILELENGTH, i * TileMap.TILELENGTH, TileMap.TILELENGTH, TileMap.TILELENGTH));
 			}
 		}
 
@@ -135,32 +140,44 @@ public abstract class Creature extends Entity {
 
 	public void damage(int dmg) {
 		// set the state to invincible state if not already there
-		if (!invincible) {
-			invincible = true;
-			inAnimation = true;
-			// play the damage animation
-			health -= dmg;
-			takeHit();
-			if (health <= 0) {
-				die();
-			}
+		if (!state.equals(CreatureState.States.Invincible)) {
+			curAnim.reset();
+			state = new InvincibleState();
+			state.enter(this);
 		}
 
 	}
 
 	public void die() {
-		inAnimation = true;
-		alive = false;
+		curAnim.reset();
+		state = new DeadState();
+		state.enter(this);
 	}
 
-	public abstract void takeHit();
 
 //	public abstract void attack(Rectangle hitbox, int damage);
-	public abstract void attack();
 	// add a hitbox to the level with the damage
 
-	public void addExtras(String[] extras) {
-		this.extras = extras;
+	public void addMetaData(String[] data) {
+		this.extras = data;
 	}
+	
+	public void attack() {
+		curAnim.reset();
+		state = new AttackingState();
+		state.enter(this);
+	}
+
+	public void takeHit() {	
+		curAnim.reset();
+		state = new InvincibleState();
+		state.enter(this);
+	}
+	
+	public Vector2i centerPos() {
+		return new Vector2i(position.x + bw/2, position.y + bh/2);
+	}
+	
+	public boolean isAlive() {return alive;}
 
 }

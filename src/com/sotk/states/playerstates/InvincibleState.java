@@ -8,19 +8,18 @@ public class InvincibleState extends PlayerState {
 	@Override
 	public void enter(Player player) {
 		// change animation
-
+		player.curAnim = player.takeHit;
 	}
 
 	@Override
 	public void update(Player player) {
-		if (!player.invincible) {
-			// set the state to normal/idle?
-			
+		if (player.takeHit.getIndex() == player.takeHit.length() - 1) {
+			player.setState(PlayerState.idle);
 		}
 
 		if (player.getHealth() <= 0) {
 			// set the state to dead state
-			
+			player.setState(PlayerState.dead);
 		}
 
 	}

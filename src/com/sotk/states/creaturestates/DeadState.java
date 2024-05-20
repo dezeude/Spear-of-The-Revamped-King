@@ -1,4 +1,4 @@
-package com.sotk.states;
+package com.sotk.states.creaturestates;
 
 import com.sotk.entities.Creature;
 
@@ -8,7 +8,7 @@ public class DeadState extends CreatureState {
 	@Override
 	public void enter(Creature creature) {
 		// change animation
-
+		creature.curAnim = creature.death;
 		creature.alive = false;
 		deadTime = 0;
 	}
@@ -22,6 +22,11 @@ public class DeadState extends CreatureState {
 		}
 		return null;
 
+	}
+
+	@Override
+	public States getState() {
+		return States.Dead;
 	}
 
 }

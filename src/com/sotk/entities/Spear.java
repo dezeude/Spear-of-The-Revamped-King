@@ -43,7 +43,7 @@ public class Spear extends Projectile{
 	}
 
 	@Override
-	public void addExtras(String[] extras) {
+	public void addMetaData(String[] extras) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -15,12 +15,12 @@ public class IdleState extends PlayerState {
 		if(player.bottom) {
 			if(player.velocity.x != 0) {
 				//switch to running state
-				player.state = PlayerState.running;
+				player.setState(PlayerState.running);
 			}
 		}
 		else {
 			//switch to jumping state
-			player.state = PlayerState.jumping;
+			player.setState(PlayerState.jumping);
 		}
 		
 	}

@@ -127,9 +127,9 @@ public class TileMap {
 							int mobX = Integer.parseInt(obj.getAttribute("x"));
 							int mobY = Integer.parseInt(obj.getAttribute("y"));
 							Element property = (Element)(object.getChildNodes().item(1).getChildNodes().item(1));
-							String[] extras = property.getTextContent().split("\\r?\\n");
+							String[] metadata = property.getTextContent().split("\\r?\\n");
 //							System.out.println(Arrays.toString(extras));
-							level.addMob(name, mobX, mobY, extras);
+							level.addMob(name, mobX, mobY, metadata);
 						}
 						
 					}

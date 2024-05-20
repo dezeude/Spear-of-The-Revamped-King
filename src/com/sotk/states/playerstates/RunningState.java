@@ -14,7 +14,7 @@ public class RunningState extends PlayerState {
 	public void update(Player player) {
 		if (player.bottom && player.velocity.x == 0) {
 			// set state to idle
-			player.state = PlayerState.idle;
+			player.setState(PlayerState.idle);
 		}
 
 	}

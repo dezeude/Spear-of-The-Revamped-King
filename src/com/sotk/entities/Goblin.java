@@ -11,21 +11,15 @@ import com.sotk.managers.AssetsManager;
 import com.sotk.managers.Bound;
 import com.sotk.managers.Camera;
 import com.sotk.managers.Collisions;
+import com.sotk.states.creaturestates.AttackingState;
 
-public class Goblin extends Creature {
+public class Goblin extends Enemy {
 	//position offsets
 	private int xOff = 64, yOff = 64; //placeholder values
 	//render bounds
 //	private int renderWidth = 150, renderHeight = 150;
 	//sprite sheet
 	private static BufferedImage sheet;
-	//animations
-	Animation idle;
-	Animation run;
-	Animation takeHit;
-	Animation death;
-	Animation curAnim;
-	Animation attack;
 	BufferedImage curFrame;
 	Level level;
 	
@@ -41,6 +35,7 @@ public class Goblin extends Creature {
 		if(sheet == null)
 			sheet = AssetsManager.loadImage("/animations/mobs/enemies/goblin/goblinSprite.png");
 		loadAnimations();
+		curAnim = idle;
 	}
 	
 //	public Goblin newGoblin(int x, int y, Level level) {
@@ -83,27 +78,28 @@ public class Goblin extends Creature {
 		processStates();
 		if(alive){
 			velocity.x = 0;
-			if(level.isPlayerAlive() && level.distFromPlayer(getBounds()) <= 250) {//if the player is alive
+			if(level.getPlayer().alive && level.getPlayer().getDist(getBounds()) <= 250) {//if the player is alive
 				//moving towards the player
 				if(level.getPlayerBounds().x > this.position.x + this.bw) { 
 					//the player is on the right
 					velocity.x = 2;
-					if(!inAnimation)
+//					if(!inAnimation)
 						facingRight = true;
 				}
 					
 				else if(level.getPlayerBounds().x + level.getPlayerBounds().width < this.position.x) {
 					//the player is on the left
 					velocity.x = -2;
-					if(!inAnimation)
+//					if(!inAnimation)
 						facingRight = false;
 				}
 				
-				if(level.distFromPlayer(getBounds()) <= 50) {
+				if(level.getPlayer().getDist(getBounds()) <= 50) {
 					//attacking the player if they're close enough
-					if(!attacking && !inAnimation) {//if the goblin is not attacking
-						attack();
-					}
+//					if(!attacking && !inAnimation) {//if the goblin is not attacking
+//						attack();
+//					}
+					attack();
 				}
 			}
 			
@@ -114,9 +110,6 @@ public class Goblin extends Creature {
 			else
 				velocity.y = 1;
 			
-			if(invincible || attacking)
-				velocity.x = 0;
-			
 			top = false;
 			bottom = false;
 			left = false;
@@ -125,37 +118,6 @@ public class Goblin extends Creature {
 			move((int)velocity.x,(int)velocity.y);
 			
 			
-			 //if the goblin is alive
-			if(inAnimation) {
-				if(invincible) {
-					curAnim = takeHit;
-					if(takeHit.getIndex() == takeHit.length() - 1) {
-						invincible = false;
-						inAnimation = false;
-						takeHit.reset();
-					}
-							
-				}
-				else if(attacking) {
-					curAnim = attack;
-					if(attack.getIndex() == attack.length() - 1) {
-						attacking = false;
-						inAnimation = false;
-						attack.reset();
-					}
-				}
-				else
-					inAnimation = false;
-						
-			}
-			else {
-				if(velocity.x == 0) {
-					curAnim = idle;
-				}
-				else {
-					curAnim = run;
-				}
-			}
 		}
 		else {//if the goblin is dead
 			curAnim = death;
@@ -173,7 +135,7 @@ public class Goblin extends Creature {
 											   curAttackFrame.width,
 											   curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				level.damagePlayer(newB, 1);
+				level.enemyAttack(newB, 1);
 			}
 			
 		}
@@ -188,7 +150,7 @@ public class Goblin extends Creature {
 											   curAttackFrame.width,
 											   curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				level.damagePlayer(newB, 1);
+				level.enemyAttack(newB, 1);
 			}
 		}
 
@@ -224,20 +186,6 @@ public class Goblin extends Creature {
 		// TODO Auto-generated method stub
 		return new Rectangle(position.x,position.y,bw,bh);
 	}
-
-	@Override
-	public void attack() {
-		attacking = true;
-		inAnimation = true;
-	}
-
-	@Override
-	public void takeHit() {	
-		attacking = false;
-		attack.reset();
-//		level.setDialogue("I died");
-	}
-
 
 
 }

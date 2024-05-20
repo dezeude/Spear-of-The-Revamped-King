@@ -1,13 +1,13 @@
-package com.sotk.states;
+package com.sotk.states.creaturestates;
 
 import com.sotk.entities.Creature;
 
-public class WalkingState extends CreatureState {
+public class RunningState extends CreatureState {
 
 	@Override
 	public void enter(Creature creature) {
 		// change animation
-
+		creature.curAnim = creature.run;
 	}
 
 	@Override
@@ -18,6 +18,11 @@ public class WalkingState extends CreatureState {
 		}
 		return null;
 
+	}
+
+	@Override
+	public States getState() {
+		return States.Running;
 	}
 
 }

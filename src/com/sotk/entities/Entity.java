@@ -8,5 +8,5 @@ public abstract class Entity {
 	public abstract void render(java.awt.Graphics g);
 	public int getX() {return position.x;}
 	public int getY() {return position.y;}
-	public abstract void addExtras(String[] extras);
+	public abstract void addMetaData(String[] extras);
 }

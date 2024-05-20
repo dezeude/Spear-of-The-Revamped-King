@@ -1,4 +1,4 @@
-package com.sotk.states;
+package com.sotk.states.creaturestates;
 
 import com.sotk.entities.Creature;
 
@@ -8,13 +8,13 @@ public class InvincibleState extends CreatureState {
 	@Override
 	public void enter(Creature creature) {
 		// change animation
-
+		creature.curAnim = creature.takeHit;
 	}
 
 	@Override
 	public CreatureState update(Creature creature) {
-		if (!creature.invincible) {
-			// set the state to normal/idle?
+		if(creature.takeHit.getIndex() == creature.takeHit.length() - 1) {
+			creature.takeHit.reset();
 			return new IdleState();
 		}
 
@@ -25,6 +25,11 @@ public class InvincibleState extends CreatureState {
 
 		return null;
 
+	}
+
+	@Override
+	public States getState() {
+		return States.Invincible;
 	}
 
 }

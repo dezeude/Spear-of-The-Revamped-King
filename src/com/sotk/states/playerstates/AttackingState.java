@@ -6,14 +6,17 @@ public class AttackingState extends PlayerState {
 
 	@Override
 	public void enter(Player player) {
-		// TODO Auto-generated method stub
+		player.curAnim = player.attack2;
 		
 	}
 
 	@Override
 	public void update(Player player) {
-		// TODO Auto-generated method stub
+		if (player.attack2.getIndex() == player.attack2.length() - 1) {
+			player.setState(PlayerState.attacking);
+		}
 		
+
 	}
 
 }

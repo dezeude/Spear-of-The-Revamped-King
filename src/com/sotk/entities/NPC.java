@@ -72,7 +72,7 @@ public abstract class NPC extends Entity implements Interactable{
 	
 	protected void checkSpeech() {
 		if(speech != null && //if a dialogue is available
-			level.distFromPlayer(getBounds()) < speechRange) {
+			level.getPlayer().getDist(getBounds()) < speechRange) {
 			//if the player is close enough to talk to the NPC
 			speechReady = true;
 			level.selectEntity(this);
@@ -214,12 +214,12 @@ public abstract class NPC extends Entity implements Interactable{
 	
 	public void interact() {
 		// TODO Auto-generated method stub
-		if(level.distFromPlayer(getBounds()) <= speechRange)
+		if(level.getPlayer().getDist(getBounds()) <= speechRange)
 			speak();
 	}
 	
 	@Override
-	public void addExtras(String[] extras) {
+	public void addMetaData(String[] extras) {
 		speech = extras;
 	}
 }
