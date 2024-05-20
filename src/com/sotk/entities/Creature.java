@@ -20,7 +20,7 @@ public abstract class Creature extends Entity {
 	protected int bw, bh, health;
 //	protected float velx,vely;
 //	protected float gravity = 0.45f;
-	public boolean facingRight = true;//, invincible = false;
+	public boolean facingRight = true;// , invincible = false;
 	public boolean alive = true;
 	protected String[] extras;
 
@@ -34,14 +34,14 @@ public abstract class Creature extends Entity {
 
 	public boolean canRemove = false; // field for when the creature can be despawned.
 
-	//animations
+	// animations
 	public Animation curAnim;
 	public Animation idle;
 	public Animation run;
 	public Animation takeHit;
 	public Animation death;
 	public Animation attack;
-	
+
 	public void processStates() {
 		CreatureState state = this.state.update(this);
 		// null state means our state didn't change
@@ -90,7 +90,8 @@ public abstract class Creature extends Entity {
 			for (int j = position.x / TileMap.TILELENGTH - 2; j < (position.x + bw) / TileMap.TILELENGTH + 2; j++) {
 				if (i >= 0 && i < TileMap.map.length && j >= 0 && j < TileMap.map[i].length
 						&& TileMap.map[i][j] - 1 > -1)
-					hitList.add(new Rectangle(j * TileMap.TILELENGTH, i * TileMap.TILELENGTH, TileMap.TILELENGTH, TileMap.TILELENGTH));
+					hitList.add(new Rectangle(j * TileMap.TILELENGTH, i * TileMap.TILELENGTH, TileMap.TILELENGTH,
+							TileMap.TILELENGTH));
 			}
 		}
 
@@ -141,6 +142,8 @@ public abstract class Creature extends Entity {
 	public void damage(int dmg) {
 		// set the state to invincible state if not already there
 		if (!state.equals(CreatureState.States.Invincible)) {
+			health -= dmg;
+			System.out.println(health);
 			curAnim.reset();
 			state = new InvincibleState();
 			state.enter(this);
@@ -154,30 +157,26 @@ public abstract class Creature extends Entity {
 		state.enter(this);
 	}
 
-
 //	public abstract void attack(Rectangle hitbox, int damage);
 	// add a hitbox to the level with the damage
 
 	public void addMetaData(String[] data) {
 		this.extras = data;
 	}
-	
+
 	public void attack() {
 		curAnim.reset();
 		state = new AttackingState();
 		state.enter(this);
 	}
 
-	public void takeHit() {	
-		curAnim.reset();
-		state = new InvincibleState();
-		state.enter(this);
-	}
-	
 	public Vector2i centerPos() {
-		return new Vector2i(position.x + bw/2, position.y + bh/2);
+		return new Vector2i(position.x + bw / 2, position.y + bh / 2);
+	}
+
+	public boolean isAlive() {
+		return alive;
 	}
 	
-	public boolean isAlive() {return alive;}
-
+	public abstract void doPhysics();
 }

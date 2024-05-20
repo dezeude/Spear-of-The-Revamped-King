@@ -24,6 +24,7 @@ import com.sotk.managers.TileMap;
 import com.sotk.states.GameState;
 
 public class Level {
+	public static Level curLevel;
 	Player p;
 	static int[][] map;
 	final int TILELENGTH = 32;
@@ -84,6 +85,7 @@ public class Level {
 		background.addLayer(b);
 
 //		tileMap.loadTMXMap();
+		curLevel = this;
 	}
 
 	public void update() {

@@ -9,17 +9,19 @@ public class DeadState extends PlayerState {
 	public void enter(Player player) {
 		// change animation
 		player.curAnim = player.death;
+		player.die();	
 		deadTime = 0;
 	}
 
 	@Override
 	public void update(Player player) {
 		
-		if (player.death.getIndex() == player.death.length() - 1) {
+		if (player.death.isFinished()) {
 			player.death.lock();
-			player.die();			
+					
 		}
 		
+		player.velocity.x = 0;
 		deadTime++;
 		if (deadTime > 300) { // 5 seconds
 			// despawn creature after it's been dead for a certain amount of time.

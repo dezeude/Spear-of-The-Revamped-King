@@ -70,7 +70,8 @@ public class Player extends Creature {
 		right = false;
 		loadAnimations();
 		curAnim = idle;
-		setState(PlayerState.idle);
+		this.state = PlayerState.idle;
+		this.state.enter(this);
 	}
 
 	public void loadAnimations() {
@@ -94,55 +95,8 @@ public class Player extends Creature {
 		takeHit = new Animation("/animations/player/Take hit.png", 3, 0.1f);
 		death = new Animation("/animations/player/Death.png", 8, 0.1f);
 	}
-
-	public void processInput() {
-		velocity.x = 0;
-		if (keyManager.getKey(KeyEvent.VK_A)) {
-			if (state != PlayerState.attacking) {
-				facingRight = false;
-				velocity.x += -5;
-				if (velocity.x < maxSpeed)
-					velocity.x = -maxSpeed;
-			}
-
-		}
-
-		if (keyManager.getKey(KeyEvent.VK_D)) {
-			if (state != PlayerState.attacking) {
-				facingRight = true;
-				velocity.x += 5;
-				if (velocity.x > maxSpeed)
-					velocity.x = maxSpeed;
-			}
-
-		}
-
-		if (keyManager.getKey(KeyEvent.VK_W)) { // if w is being pressed
-//			System.out.println(System.currentTimeMillis());
-			if (state != PlayerState.invincible) {
-				if (bottom) { // if there is a tile under the player
-					timeSinceJumped = 0;
-					velocity.y = -9;
-					bottom = false;
-					isJumping = true;
-				} else { // if the player is in the air
-					timeSinceJumped++;
-					if (timeSinceJumped <= 20 && isJumping) {
-						velocity.y -= 0.3;
-					} else {
-						timeSinceJumped = 0;
-						isJumping = false;
-					}
-
-				}
-			}
-
-		}
-		if (!keyManager.getKey(KeyEvent.VK_W) && !bottom)
-// if the w isn't held and the player is in the air.
-			isJumping = false;
-// the player isn't jumping anymore			
-
+	
+	public void doPhysics() {
 		if (bottom) {// if the player is standing on a tile
 			// change the y velocity so the player falls slower
 			velocity.y = 1;
@@ -175,6 +129,51 @@ public class Player extends Creature {
 		force.zero();
 
 		move((int) velocity.x, (int) velocity.y); // move the player and check for collisions
+	}
+
+	public void processInput() {
+		velocity.x = 0;
+		if (keyManager.getKey(KeyEvent.VK_A)) {
+				facingRight = false;
+				velocity.x += -5;
+				if (velocity.x < maxSpeed)
+					velocity.x = -maxSpeed;
+		}
+
+		if (keyManager.getKey(KeyEvent.VK_D)) {
+				facingRight = true;
+				velocity.x += 5;
+				if (velocity.x > maxSpeed)
+					velocity.x = maxSpeed;
+
+		}
+
+		if (keyManager.getKey(KeyEvent.VK_W)) { // if w is being pressed
+//			System.out.println(System.currentTimeMillis());
+			if (state != PlayerState.invincible) {
+				if (bottom) { // if there is a tile under the player
+					timeSinceJumped = 0;
+					velocity.y = -9;
+					bottom = false;
+					isJumping = true;
+				} else { // if the player is in the air
+					timeSinceJumped++;
+					if (timeSinceJumped <= 20 && isJumping) {
+						velocity.y -= 0.3;
+					} else {
+						timeSinceJumped = 0;
+						isJumping = false;
+					}
+
+				}
+			}
+
+		}
+		if (!keyManager.getKey(KeyEvent.VK_W) && !bottom)
+// if the w isn't held and the player is in the air.
+			isJumping = false;
+// the player isn't jumping anymore			
+
 
 	}
 
@@ -187,6 +186,7 @@ public class Player extends Creature {
 			Camera.smoothTo(position.x + bw / 2, position.y + bh / 2);// center player in the middle of the screen.
 			// TODO: Fix SmoothTo
 		}
+		doPhysics();
 
 		if (facingRight) {
 			curFrame = curAnim.getCurFrame();
@@ -275,21 +275,29 @@ public class Player extends Creature {
 	public void attack() {
 		setState(PlayerState.attacking);
 	}
-
+	
 	@Override
-	public void takeHit() {
-		health--;
-		setState(PlayerState.invincible);
+	public void damage(int dmg) {	
+		if(state.equals(PlayerState.dead))
+			return;
+		if(!state.equals(PlayerState.invincible)) {	
+			health -=dmg;
+			curAnim.reset();
+			state = PlayerState.invincible;
+			state.enter(this);
+		}
+		System.out.println(health);
 	}
-
 	@Override
 	public void die() {
-		alive = false;
 		health = 0;
-		setState(PlayerState.dead);
+		alive = false;
 	}
 
 	public void setState(PlayerState ps) {
+		if(state.equals(PlayerState.dead))
+			return;
+		
 		curAnim.reset();
 		this.state = ps;
 		this.state.enter(this);

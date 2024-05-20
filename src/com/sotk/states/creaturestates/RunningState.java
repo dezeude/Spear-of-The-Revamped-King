@@ -1,6 +1,7 @@
 package com.sotk.states.creaturestates;
 
 import com.sotk.entities.Creature;
+import com.sotk.levels.Level;
 
 public class RunningState extends CreatureState {
 
@@ -12,10 +13,16 @@ public class RunningState extends CreatureState {
 
 	@Override
 	public CreatureState update(Creature creature) {
-		if (creature.bottom && creature.velocity.x != 0) {
+		if (creature.bottom && Math.abs(creature.velocity.x) < 1.0f) {
 			// set state to idle
 			return new IdleState();
 		}
+		
+		if(Level.curLevel.getPlayer().isAlive() && Level.curLevel.getPlayer().getDist(creature.getBounds()) <= 50) {
+			//attacking the player if they're close enough
+			return new AttackingState();
+		}
+		
 		return null;
 
 	}

@@ -40,13 +40,13 @@ public class Mushroom extends Creature{
 	}
 
 	@Override
-	public void takeHit() {
+	public void attack() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void attack() {
+	public void doPhysics() {
 		// TODO Auto-generated method stub
 		
 	}

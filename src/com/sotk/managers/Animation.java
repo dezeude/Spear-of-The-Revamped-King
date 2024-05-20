@@ -10,7 +10,7 @@ public class Animation {
 	BufferedImage[]frames;
 	BufferedImage[]mirrorFrames;
 	Rectangle[]attackFrames;
-	private boolean locked = false, reset = false;
+	private boolean locked = false;
 	public Animation(Animation a) {
 //this constructor makes this animation share the image objects with other animations to save memory
 		this.incrementer = a.incrementer;
@@ -72,10 +72,6 @@ public class Animation {
 	public void play() {
 		if(!locked)
 			index += incrementer;
-		if(reset) {
-			index = 0;
-			reset = false;
-		}
 			
 		
 //		System.out.println("cast: " + (int)index);
@@ -137,7 +133,7 @@ public class Animation {
 	}
 	
 	public void reset() {
-		reset = true;
+		index = 0;
 	}
 	
 	public int length() {
@@ -151,6 +147,8 @@ public class Animation {
 	public void unlock() {
 		this.locked = false;
 	}
+	
+	public boolean isFinished() {return index >= frames.length - 1;}
 	
 	
 }

@@ -9,11 +9,12 @@ public class InvincibleState extends CreatureState {
 	public void enter(Creature creature) {
 		// change animation
 		creature.curAnim = creature.takeHit;
+		
 	}
 
 	@Override
 	public CreatureState update(Creature creature) {
-		if(creature.takeHit.getIndex() == creature.takeHit.length() - 1) {
+		if(creature.takeHit.isFinished()) {
 			creature.takeHit.reset();
 			return new IdleState();
 		}

@@ -7,12 +7,11 @@ public class AttackingState extends CreatureState {
 	@Override
 	public void enter(Creature creature) {
 		creature.curAnim = creature.attack;
-		creature.velocity.x = 0;
 	}
 
 	@Override
 	public CreatureState update(Creature creature) {
-		if(creature.attack.getIndex() == creature.attack.length() - 1) {
+		if(creature.attack.isFinished()) {
 			creature.attack.reset();
 			return new IdleState();
 		}

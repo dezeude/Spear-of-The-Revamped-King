@@ -6,14 +6,14 @@ public class IdleState extends PlayerState {
 
 	@Override
 	public void enter(Player player) {
-		player.curAnim = player.run;
+		player.curAnim = player.idle;
 		
 	}
 
 	@Override
 	public void update(Player player) {
 		if(player.bottom) {
-			if(player.velocity.x != 0) {
+			if(Math.abs(player.velocity.x) > 1) {
 				//switch to running state
 				player.setState(PlayerState.running);
 			}

@@ -12,10 +12,12 @@ public class RunningState extends PlayerState {
 
 	@Override
 	public void update(Player player) {
-		if (player.bottom && player.velocity.x == 0) {
+		if (player.bottom) {
 			// set state to idle
-			player.setState(PlayerState.idle);
-		}
+			if (Math.abs(player.velocity.x) < 1.0f)
+				player.setState(PlayerState.idle);
+		} else
+			player.setState(PlayerState.jumping);
 
 	}
 
