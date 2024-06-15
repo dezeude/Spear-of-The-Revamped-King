@@ -22,6 +22,7 @@ import com.sotk.managers.Camera;
 import com.sotk.managers.Collisions;
 import com.sotk.managers.TileMap;
 import com.sotk.states.GameState;
+import com.sotk.states.playerstates.PlayerState;
 
 public class Level {
 	public static Level curLevel;
@@ -155,6 +156,7 @@ public class Level {
 			Vector2i point = game.windowToBufferPoint(new Vector2i(x, y));
 //			p.throwSpear(x, y);
 			p.throwSpear(point);
+			p.setState(PlayerState.throwing);
 		}
 
 	}

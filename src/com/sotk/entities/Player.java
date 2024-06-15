@@ -13,10 +13,6 @@ import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
 import com.sotk.managers.Camera;
 import com.sotk.managers.KeyManager;
-import com.sotk.states.creaturestates.AttackingState;
-import com.sotk.states.creaturestates.CreatureState;
-import com.sotk.states.creaturestates.DeadState;
-import com.sotk.states.creaturestates.InvincibleState;
 import com.sotk.states.playerstates.PlayerState;
 
 public class Player extends Creature {
@@ -43,6 +39,7 @@ public class Player extends Creature {
 	public Animation fall;
 	public Animation takeHit;
 	public Animation death;
+	public Animation throwing;
 	BufferedImage curFrame;
 
 //	boolean inAnimation = false; // for important animations that cannot be cancelled until finished
@@ -94,6 +91,8 @@ public class Player extends Creature {
 
 		takeHit = new Animation("/animations/player/Take hit.png", 3, 0.1f);
 		death = new Animation("/animations/player/Death.png", 8, 0.1f);
+		
+		throwing = new Animation("/animations/player/Attack3.png", 7, 0.2f);
 	}
 	
 	public void doPhysics() {

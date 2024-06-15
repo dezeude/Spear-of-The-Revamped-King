@@ -62,9 +62,6 @@ public class Animation {
 			attackFrames[i] = null;
 		}
 		
-		for(int i = 0; i < length; i++) {
-			attackFrames[i] = null;
-		}
 		
 		
 	}

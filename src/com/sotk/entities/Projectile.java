@@ -19,7 +19,7 @@ public abstract class Projectile extends Entity{
 		velocity = new Vector2f();
 		resultantForce = new Vector2f(vx, vy);
 		this.sheet = sheet;
-		update();
+//		update();
 	}
 	
 	public Projectile(int x, int y, Vector2f direction, BufferedImage sheet) {
@@ -27,7 +27,7 @@ public abstract class Projectile extends Entity{
 		resultantForce = new Vector2f(direction);
 		this.velocity = new Vector2f();
 		this.sheet = sheet;
-		update();
+//		update();
 	}
 	
 	public Projectile(Vector2i position, Vector2f direction, BufferedImage sheet) {
@@ -35,7 +35,7 @@ public abstract class Projectile extends Entity{
 		resultantForce = new Vector2f(direction);
 		this.velocity = new Vector2f();
 		this.sheet = sheet;
-		update();
+//		update();
 	}
 
 	public void update() {

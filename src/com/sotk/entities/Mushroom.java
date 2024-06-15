@@ -7,7 +7,7 @@ import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
 import com.sotk.managers.AssetsManager;
 
-public class Mushroom extends Creature{
+public class Mushroom extends Enemy{
 	Level level;
 	Animation idle;
 	
