@@ -63,8 +63,8 @@ public class GameState extends State{
 	}
 
 	@Override
-	public void mouseReleased(int mouseBtn) {
-		
+	public void mouseReleased(int mouseBtn, int x, int y) {
+		curLevel.mouseReleased(mouseBtn, x, y);
 	}
 	
 	public void nextLevel(String path) {

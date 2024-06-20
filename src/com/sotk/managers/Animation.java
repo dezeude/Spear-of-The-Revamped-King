@@ -121,6 +121,10 @@ public class Animation {
 		return (int) (Math.floor(index) % frames.length);
 	}
 	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
 	public boolean hasAttackFrame() {
 		if(attackFrames == null)
 			return false;

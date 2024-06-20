@@ -23,8 +23,6 @@ public class Player extends Creature {
 	private boolean isJumping = false;
 	private final float knockBack = 5.0f;
 	private int renderDimensions = 150;
-	private int mouseX = 0;
-	private int mouseY = 0;
 
 	KeyManager keyManager;
 
@@ -91,10 +89,10 @@ public class Player extends Creature {
 
 		takeHit = new Animation("/animations/player/Take hit.png", 3, 0.1f);
 		death = new Animation("/animations/player/Death.png", 8, 0.1f);
-		
+
 		throwing = new Animation("/animations/player/Attack3.png", 7, 0.2f);
 	}
-	
+
 	public void doPhysics() {
 		if (bottom) {// if the player is standing on a tile
 			// change the y velocity so the player falls slower
@@ -133,17 +131,17 @@ public class Player extends Creature {
 	public void processInput() {
 		velocity.x = 0;
 		if (keyManager.getKey(KeyEvent.VK_A)) {
-				facingRight = false;
-				velocity.x += -5;
-				if (velocity.x < maxSpeed)
-					velocity.x = -maxSpeed;
+			facingRight = false;
+			velocity.x += -5;
+			if (velocity.x < maxSpeed)
+				velocity.x = -maxSpeed;
 		}
 
 		if (keyManager.getKey(KeyEvent.VK_D)) {
-				facingRight = true;
-				velocity.x += 5;
-				if (velocity.x > maxSpeed)
-					velocity.x = maxSpeed;
+			facingRight = true;
+			velocity.x += 5;
+			if (velocity.x > maxSpeed)
+				velocity.x = maxSpeed;
 
 		}
 
@@ -172,7 +170,6 @@ public class Player extends Creature {
 // if the w isn't held and the player is in the air.
 			isJumping = false;
 // the player isn't jumping anymore			
-
 
 	}
 
@@ -254,39 +251,43 @@ public class Player extends Creature {
 		addForce(new Vector2f((float) force.x, (float) force.y));
 	}
 
-	public void throwSpear(int x, int y) {
-		mouseX = x;
-		mouseY = y;
-
-//		System.out.println("pX: " + position.x + " pY: " + position.y);
-		Vector2f dir = new Vector2f((mouseX + Camera.getXOffset()) - (position.x + bw / 2),
-				(mouseY + Camera.getYOffset()) - (position.y + bh / 2)).normalize(maxSpeed * 3);
-//		System.out.println("DirX: " + dir.x() + " DirY: " + dir.y());
-		Vector2i newPos = centerPos();
-		level.addProjectile(new Spear(newPos, dir));
+	public void holdSpear() {
+		setState(PlayerState.holding);
+	}
+	
+	public void setThrowingState(int mouseX, int mouseY) {
+		setState(PlayerState.throwing);
+		this.throwing.unlock();
+		PlayerState.throwing.setMousePosition(mouseX, mouseY);
 	}
 
-	public void throwSpear(Vector2i point) {
-		throwSpear(point.x, point.y);
+	public void throwSpear(int mouseX, int mouseY) { // window points
+
+		// convert window position to game position
+		Vector2f dir = new Vector2f((mouseX + Camera.getXOffset()) - (position.x + bw / 2),
+				(mouseY + Camera.getYOffset()) - (position.y + bh / 2)).normalize(maxSpeed * 3);
+		Vector2i newPos = centerPos();
+		level.addProjectile(new Spear(newPos, dir));
 	}
 
 	@Override
 	public void attack() {
 		setState(PlayerState.attacking);
 	}
-	
+
 	@Override
-	public void damage(int dmg) {	
-		if(state.equals(PlayerState.dead))
+	public void damage(int dmg) {
+		if (state.equals(PlayerState.dead))
 			return;
-		if(!state.equals(PlayerState.invincible)) {	
-			health -=dmg;
+		if (!state.equals(PlayerState.invincible)) {
+			health -= dmg;
 			curAnim.reset();
 			state = PlayerState.invincible;
 			state.enter(this);
 		}
 		System.out.println(health);
 	}
+
 	@Override
 	public void die() {
 		health = 0;
@@ -294,9 +295,9 @@ public class Player extends Creature {
 	}
 
 	public void setState(PlayerState ps) {
-		if(state.equals(PlayerState.dead))
+		if (state.equals(PlayerState.dead))
 			return;
-		
+
 		curAnim.reset();
 		this.state = ps;
 		this.state.enter(this);

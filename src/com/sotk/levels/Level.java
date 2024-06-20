@@ -152,17 +152,17 @@ public class Level {
 		}
 		// right click
 		if (mouseBtn == MouseEvent.BUTTON3) {
-//			System.out.println("Right Click!");
-			Vector2i point = game.windowToBufferPoint(new Vector2i(x, y));
-//			p.throwSpear(x, y);
-			p.throwSpear(point);
-			p.setState(PlayerState.throwing);
+			p.holdSpear();
 		}
 
 	}
 
-	public void mouseReleased(int mouseBtn) {
-
+	public void mouseReleased(int mouseBtn, int x, int y) {
+		//right click
+		if (mouseBtn == MouseEvent.BUTTON3) { 
+			Vector2i point = game.windowToBufferPoint(new Vector2i(x, y));
+			p.setThrowingState(point.x, point.y);
+		}
 	}
 
 	public void addMob(String name, int x, int y, String[] metadata) {

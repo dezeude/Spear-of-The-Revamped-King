@@ -7,6 +7,6 @@ public abstract class State{
 	public abstract void keyPressed(int key);
 	public abstract void keyReleased(int key);
 	public abstract void mousePressed(int mouseBtn, int x, int y);
-	public abstract void mouseReleased(int mouseBtn);
+	public abstract void mouseReleased(int mouseBtn, int x, int y);
 
 }

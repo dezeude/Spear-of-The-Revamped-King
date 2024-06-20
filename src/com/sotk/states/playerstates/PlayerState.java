@@ -13,6 +13,7 @@ public abstract class PlayerState { // Static FSM
 	public static RunningState running = new RunningState();
 	public static JumpingState jumping = new JumpingState();
 	public static AttackingState attacking = new AttackingState();
+	public static HoldingState holding = new HoldingState();
 	public static ThrowingState throwing = new ThrowingState();
 
 	public abstract void enter(Player player); // enters the state
