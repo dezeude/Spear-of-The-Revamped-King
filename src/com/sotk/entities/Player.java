@@ -16,7 +16,6 @@ import com.sotk.managers.KeyManager;
 import com.sotk.states.playerstates.PlayerState;
 
 public class Player extends Creature {
-//	private int renderWidth = 150, renderHeight = 150;
 	private int xOff = 64, yOff = 57; // bounds x and y offsets, with the width and height
 	private float maxSpeed = 5.0f;
 	private int timeSinceJumped = 0;
@@ -26,12 +25,9 @@ public class Player extends Creature {
 
 	KeyManager keyManager;
 
-	// animations
-//	AnimationManager animationManager;
 	public Animation curAnim;
 	public Animation idle;
 	public Animation run;
-//	Animation attack1;
 	public Animation attack2;
 	public Animation jump;
 	public Animation fall;
@@ -39,9 +35,6 @@ public class Player extends Creature {
 	public Animation death;
 	public Animation throwing;
 	BufferedImage curFrame;
-
-//	boolean inAnimation = false; // for important animations that cannot be cancelled until finished
-//	boolean attackQ = false;
 
 	long lastClicked;
 
@@ -254,7 +247,7 @@ public class Player extends Creature {
 	public void holdSpear() {
 		setState(PlayerState.holding);
 	}
-	
+
 	public void setThrowingState(int mouseX, int mouseY) {
 		setState(PlayerState.throwing);
 		this.throwing.unlock();

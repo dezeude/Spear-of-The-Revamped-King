@@ -56,19 +56,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 	@Override
 	public void run() {
-//		int fps = 60;
-//		long start;
-//		long elapsed;
-//		long wait;
-//		long targetTime = 1000 / fps;
-		// Notch way
-//		int oneSecond = 1000000000;
-//		float timePerTick = oneSecond / targetFPS;
-//		float delta = 0;
-//		long now;
-//		long lastTime = System.nanoTime();
-//		long timer = 0;
-
 		long targetTime = 1_000_000_000 / targetFPS; // targetTime in nanoseconds
 		long start = 0;
 		// convert everything to milliseconds. For now...
@@ -96,26 +83,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 //			update(deltaTime / 1_000_000_000f); //deltaTime should be in seconds (float)
 			update();
 			repaint();
-
-			// Notch way
-//			now = System.nanoTime();
-//			delta += (now - lastTime) / timePerTick;
-//			timer += now - lastTime;
-//			lastTime = now;
-//			
-//			
-//			if(delta >= 1){
-//				--delta;
-////				System.out.println(dt);
-//				update();
-//				repaint();
-//			}
-//			
-//			if(timer >= oneSecond){
-////				System.out.println("Ticks and Frames: " + ticks);
-//				timer = 0;
-//			}
-
 		}
 
 	}

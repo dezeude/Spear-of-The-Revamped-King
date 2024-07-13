@@ -32,8 +32,6 @@ public abstract class Creature extends Entity {
 
 	private CreatureState state = new IdleState();
 
-	public boolean canRemove = false; // field for when the creature can be despawned.
-
 	// animations
 	public Animation curAnim;
 	public Animation idle;

@@ -9,4 +9,5 @@ public abstract class Entity {
 	public int getX() {return position.x;}
 	public int getY() {return position.y;}
 	public abstract void addMetaData(String[] extras);
+	public boolean canRemove = false; // field for when the creature can be despawned.
 }

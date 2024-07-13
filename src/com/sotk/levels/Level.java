@@ -11,6 +11,7 @@ import org.joml.Vector2i;
 
 import com.sotk.entities.Creature;
 import com.sotk.entities.Enemy;
+import com.sotk.entities.Entity;
 import com.sotk.entities.Goblin;
 import com.sotk.entities.Interactable;
 import com.sotk.entities.King;
@@ -39,9 +40,8 @@ public class Level {
 	ArrayList<Enemy> enemies;
 	ArrayList<NPC> npcs;
 	ArrayList<Projectile> projs;
-//	ArrayList<Projectiles> projectiles;
 
-	public Vector2f gravity = new Vector2f(0, .981f / 2);
+	ArrayList<Entity> entities;
 
 	Interactable selectedEntity;
 
@@ -108,19 +108,15 @@ public class Level {
 		for (NPC npc : npcs)
 			npc.update();
 
-		for (Projectile proj : projs) {
-
-			Vector2f temp = new Vector2f();
-			gravity.mul(proj.getMass(), temp);
-			proj.applyForce(temp);
-			proj.update();
-//			System.out.println("Update Projs!");
+		for (int i = 0; i < projs.size(); i++) {
+			Projectile p = projs.get(i);
+			if (p.canRemove) {
+				projs.remove(i);
+				continue;
+			}
+			p.update();
 		}
-
-//		projs.forEach((n) -> n.update());
-
-//		checkCollisions();
-//		System.out.println(enemies.size());
+		
 	}
 
 	public void render(Graphics g) {
@@ -158,8 +154,8 @@ public class Level {
 	}
 
 	public void mouseReleased(int mouseBtn, int x, int y) {
-		//right click
-		if (mouseBtn == MouseEvent.BUTTON3) { 
+		// right click
+		if (mouseBtn == MouseEvent.BUTTON3) {
 			Vector2i point = game.windowToBufferPoint(new Vector2i(x, y));
 			p.setThrowingState(point.x, point.y);
 		}
@@ -198,26 +194,27 @@ public class Level {
 		return p.getBounds();
 	}
 
-	public ArrayList<Enemy> getEnemies() {
-		return enemies;
-	}
-
-	public void damageEnemies(Rectangle bounds, int damage) {
+	//returns true if the entity was damaged/attacked.
+	public boolean damageEnemies(Rectangle bounds, int damage) {
 		for (Creature e : enemies) {
 			if (bounds.intersects(e.getBounds())) {
 				e.damage(damage);
+				return true;
 			}
 		}
+		return false;
 	}
 
-	public void enemyAttack(Rectangle bounds, int damage) {
+	public boolean enemyAttack(Rectangle bounds, int damage) {
 		if (bounds.intersects(p.getBounds())) {
 			p.damage(damage);
 			Vector2i boundsCenter = new Vector2i(bounds.x + bounds.width / 2, bounds.y + bounds.height);
 			Vector2i dest = new Vector2i();
 			p.centerPos().sub(boundsCenter, dest);
 			p.addForce(dest);
+			return true;
 		}
+		return false;
 
 	}
 
