@@ -9,9 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.joml.Vector2i;
@@ -21,7 +21,8 @@ import com.sotk.managers.TileMap;
 import com.sotk.states.GameState;
 import com.sotk.states.State;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener, FocusListener {
+public class GamePanel extends JPanel
+		implements Runnable, KeyListener, MouseListener, FocusListener, MouseMotionListener {
 	public final int bufferWidth = TileMap.TILELENGTH * 25;
 	public final int bufferHeight = TileMap.TILELENGTH * 14;
 	private Thread thread;
@@ -33,6 +34,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	private static BufferedImage offScreenBuffer;
 	// the buffer that is scaled and painted to the screen/Panel.
 	public static int targetFPS = 60;
+
+	private Vector2i mouseWinCoords;
 
 	public GamePanel() {
 		super();
@@ -46,11 +49,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		addKeyListener(this);
 		addMouseListener(this);
 		addFocusListener(this);
+		addMouseMotionListener(this);
 		offScreenBuffer = new BufferedImage(bufferWidth, bufferHeight, BufferedImage.TYPE_INT_ARGB);
 		running = true;
 		gameState = new GameState(this);
 		keyManager = KeyManager.getInstance();
 		thread = new Thread(this);
+		mouseWinCoords = new Vector2i();
 		thread.start();
 	}
 
@@ -70,8 +75,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 					long milliTime = 0;
 					int nanoTime = (int) sleepTime;
 					if (sleepTime > 999999) {
-						milliTime = (long)(sleepTime / 1_000_000); //Times 10^-6
-						nanoTime = (int)(sleepTime % 1_000_000);
+						milliTime = (long) (sleepTime / 1_000_000); // Times 10^-6
+						nanoTime = (int) (sleepTime % 1_000_000);
 					}
 					Thread.sleep(milliTime, nanoTime);
 				} catch (Exception e) {
@@ -217,6 +222,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		keyManager.keyReleased(KeyEvent.VK_A);
 		keyManager.keyReleased(KeyEvent.VK_S);
 		keyManager.keyReleased(KeyEvent.VK_D);
+	}
+
+	public Vector2i getMouseWindowCoords() {
+		return mouseWinCoords;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		mouseWinCoords.set(e.getX(), e.getY());
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		mouseWinCoords.set(e.getX(), e.getY());
 	}
 
 }

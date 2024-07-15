@@ -10,13 +10,14 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 import com.sotk.levels.Level;
+import com.sotk.main.GamePanel;
 import com.sotk.managers.AssetsManager;
 import com.sotk.managers.Camera;
 import com.sotk.managers.TileMap;
 
 public class Spear extends Projectile {
 	private boolean stuck = false;
-	private int stuckTimer = 180;
+	private int stuckTimer = GamePanel.targetFPS * 3; //three seconds
 	private final int stuckTimerMax = stuckTimer;
 
 	public Spear(int x, int y, float vx, float vy) {

@@ -257,6 +257,7 @@ public class Player extends Creature {
 	public void throwSpear(int mouseX, int mouseY) { // window points
 
 		// convert window position to game position
+		// compute vector between mouse and player bounds center
 		Vector2f dir = new Vector2f((mouseX + Camera.getXOffset()) - (position.x + bw / 2),
 				(mouseY + Camera.getYOffset()) - (position.y + bh / 2)).normalize(maxSpeed * 3);
 		Vector2i newPos = centerPos();

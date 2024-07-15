@@ -1,12 +1,15 @@
 package com.sotk.levels;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
+import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
-import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 import com.sotk.entities.Creature;
@@ -23,7 +26,6 @@ import com.sotk.managers.Camera;
 import com.sotk.managers.Collisions;
 import com.sotk.managers.TileMap;
 import com.sotk.states.GameState;
-import com.sotk.states.playerstates.PlayerState;
 
 public class Level {
 	public static Level curLevel;
@@ -44,6 +46,8 @@ public class Level {
 	ArrayList<Entity> entities;
 
 	Interactable selectedEntity;
+
+	boolean showSpearTrajec = false;
 
 	public Level(String path, GameState gState, GamePanel game) {
 		this.path = path;
@@ -116,7 +120,7 @@ public class Level {
 			}
 			p.update();
 		}
-		
+
 	}
 
 	public void render(Graphics g) {
@@ -130,13 +134,18 @@ public class Level {
 		for (Projectile proj : projs)
 			proj.render(g);
 
-//		draw the attackBounds
-//		Rectangle b = playerAttackBounds;
-//		if(b != null) {
-//			g.fillRect(b.x - Camera.getXOffset(), b.y - Camera.getYOffset(), b.width, b.height);
-//			System.out.println(b.x);
-//
-//		}
+		if (showSpearTrajec) {
+			QuadCurve2D q = new QuadCurve2D.Float();
+			Vector2i mouseCoords = game.getMouseWindowCoords();
+			Vector2i pScreenCoords = new Vector2i(p.centerPos().x - Camera.getXOffset(), p.centerPos().y - Camera.getYOffset());
+			q.setCurve(pScreenCoords.x, pScreenCoords.y, mouseCoords.x - pScreenCoords.x,
+					mouseCoords.y - pScreenCoords.y, mouseCoords.x, mouseCoords.y);
+			Graphics2D g2d = (Graphics2D) g;
+			Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
+			g2d.setStroke(dashed);
+			g2d.setColor(Color.white);
+			g2d.draw(q);
+		}
 
 	}
 
@@ -149,6 +158,7 @@ public class Level {
 		// right click
 		if (mouseBtn == MouseEvent.BUTTON3) {
 			p.holdSpear();
+			showSpearTrajec = true;
 		}
 
 	}
@@ -158,6 +168,7 @@ public class Level {
 		if (mouseBtn == MouseEvent.BUTTON3) {
 			Vector2i point = game.windowToBufferPoint(new Vector2i(x, y));
 			p.setThrowingState(point.x, point.y);
+			showSpearTrajec = false;
 		}
 	}
 
@@ -194,7 +205,7 @@ public class Level {
 		return p.getBounds();
 	}
 
-	//returns true if the entity was damaged/attacked.
+	// returns true if the entity was damaged/attacked.
 	public boolean damageEnemies(Rectangle bounds, int damage) {
 		for (Creature e : enemies) {
 			if (bounds.intersects(e.getBounds())) {
