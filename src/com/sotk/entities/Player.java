@@ -270,16 +270,16 @@ public class Player extends Creature {
 	}
 
 	@Override
-	public void damage(int dmg) {
-		if (state.equals(PlayerState.dead))
-			return;
-		if (!state.equals(PlayerState.invincible)) {
+	public boolean damage(int dmg) {
+		if (state.equals(PlayerState.dead) || state.equals(PlayerState.invincible))
+			return false;
+		else { //damage the player
 			health -= dmg;
 			curAnim.reset();
 			state = PlayerState.invincible;
 			state.enter(this);
+			return true;
 		}
-		System.out.println(health);
 	}
 
 	@Override

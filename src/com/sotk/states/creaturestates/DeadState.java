@@ -11,6 +11,7 @@ public class DeadState extends CreatureState {
 		creature.curAnim = creature.death;
 		creature.alive = false;
 		deadTime = 0;
+		creature.velocity.zero();
 	}
 
 	@Override

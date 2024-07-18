@@ -115,12 +115,12 @@ public class Level {
 			npc.update();
 
 		for (int i = 0; i < projs.size(); i++) {
-			Projectile p = projs.get(i);
-			if (p.canRemove) {
+			Projectile proj = projs.get(i);
+			if (proj.canRemove) {
 				projs.remove(i);
 				continue;
 			}
-			p.update();
+			proj.update();
 		}
 
 	}
@@ -137,33 +137,37 @@ public class Level {
 			proj.render(g);
 
 		if (showSpearTrajec) {
-			Vector2f spearVelocity = new Vector2f(
-					(game.getMouseWindowCoords().x + Camera.getXOffset()) - p.centerPos().x,
-					(game.getMouseWindowCoords().y + Camera.getYOffset()) - p.centerPos().y).normalize(15f);
+			Vector2i mouseCoords = game.getMouseWindowCoords();
+			Vector2f spearVelocity = new Vector2f((mouseCoords.x + Camera.getXOffset()) - p.centerPos().x,
+					(mouseCoords.y + Camera.getYOffset()) - p.centerPos().y).normalize(15f);
 			Vector2i playerPos = p.centerPos();
 
 			Spear tempSpear = new Spear(playerPos, spearVelocity);
 
 			QuadCurve2D q = new QuadCurve2D.Float();
 
-			Vector2i mouseCoords = game.getMouseWindowCoords();
 			// game to window coords
 			Vector2i pScreenCoords = new Vector2i(p.centerPos().x - Camera.getXOffset(),
 					p.centerPos().y - Camera.getYOffset());
 
-			int anywhereOnCurveX = (mouseCoords.x + pScreenCoords.x) / 2;
-			int anywhereOnCurveY = Math.toIntExact(Math.round(tempSpear.calcYTrajecFromX(anywhereOnCurveX)));
+			int maxDisplacement = Math.toIntExact(Math.round(tempSpear.TrajecRange()));
 
-			int cpX = 2 * anywhereOnCurveX - pScreenCoords.x / 2 - mouseCoords.x / 2;
-			int cpY = 2 * anywhereOnCurveY - pScreenCoords.y / 2 - mouseCoords.y / 2;
+			//anywhere on the curve in game coordinates
+			int anywhereOnCurveX = pScreenCoords.x + (maxDisplacement / 2);
+			int anywhereOnCurveY = pScreenCoords.y - Math.toIntExact(Math.round(tempSpear.calcYTrajecFromX(maxDisplacement / 2)));
+
+			int cpX = 2 * anywhereOnCurveX - pScreenCoords.x / 2 - (pScreenCoords.x + maxDisplacement) / 2;
+			int cpY = 2 * anywhereOnCurveY - pScreenCoords.y / 2 - pScreenCoords.y / 2;
 
 //			mouseCoords.x - pScreenCoords.x, -tempSpear.calcYTrajecFromX(mouseCoords.x - pScreenCoords.x, pScreenCoords.x), // critical point
 
 			// assuming player is aiming to the right
 			q.setCurve(pScreenCoords.x, pScreenCoords.y, // starting point
 					cpX, cpY, // critical point
-					mouseCoords.x, Math.toIntExact(Math.round(tempSpear.calcYTrajecFromX(mouseCoords.x))) // end point
+					pScreenCoords.x + maxDisplacement, pScreenCoords.y // end point
 			);
+
+//			addProjectile(tempSpear);
 
 			// negate y values since graphics displays
 

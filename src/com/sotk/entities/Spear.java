@@ -54,7 +54,7 @@ public class Spear extends Projectile {
 		Rectangle bounds = new Rectangle(position.x + (int) temp.x - 5, position.y + (int) temp.y - 5, 10, 10);
 
 		if (Level.curLevel.damageEnemies(bounds, 1))
-			// spear is removed if enemy is hit
+			// spear is removed/deleted if enemy is hit
 			canRemove = true;
 
 		// check if spear hits collision map
@@ -102,11 +102,19 @@ public class Spear extends Projectile {
 	}
 
 	public double calcYTrajecFromX(double x) {
-		double angle = velocity.angle(new Vector2f(1, 0));
+		double angle = resultantForce.angle(new Vector2f(1, 0));
+//		System.out.println(Math.toDegrees(angle));
 		double leftSide = Math.tan(angle) * x;
-		double rightSide = (gravity.y * Math.pow(x, 2)) / 2.0 * Math.pow(velocity.length(),2) * Math.pow(Math.cos(angle), 2);
-		double y =  leftSide - rightSide;
+		double rightSide = (gravity.y * Math.pow(x, 2))
+				/ (2.0 * Math.pow(resultantForce.length(), 2) * Math.pow(Math.cos(angle), 2));
+		double y = leftSide - rightSide;
 		return y;
+	}
+	
+	//from equation
+	public double TrajecRange() {
+		double angle = resultantForce.angle(new Vector2f(1, 0));
+		return (Math.pow(resultantForce.length(), 2) * Math.sin(2 * angle)) / gravity.y;
 	}
 
 }
