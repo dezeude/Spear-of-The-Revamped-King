@@ -141,14 +141,17 @@ public class Level {
 			Vector2f spearVelocity = new Vector2f((mouseCoords.x + Camera.getXOffset()) - p.centerPos().x,
 					(mouseCoords.y + Camera.getYOffset()) - p.centerPos().y).normalize(15f);
 			Vector2i playerPos = p.centerPos();
+			
+			// game to window coords
+			Vector2i pScreenCoords = new Vector2i(p.centerPos().x - Camera.getXOffset(),
+					p.centerPos().y - Camera.getYOffset());
+			
+			if(mouseCoords.y > pScreenCoords.y)
+				return;
 
 			Spear tempSpear = new Spear(playerPos, spearVelocity);
 
 			QuadCurve2D q = new QuadCurve2D.Float();
-
-			// game to window coords
-			Vector2i pScreenCoords = new Vector2i(p.centerPos().x - Camera.getXOffset(),
-					p.centerPos().y - Camera.getYOffset());
 
 			int maxDisplacement = Math.toIntExact(Math.round(tempSpear.TrajecRange()));
 
