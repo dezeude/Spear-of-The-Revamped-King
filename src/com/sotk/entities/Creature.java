@@ -137,15 +137,17 @@ public abstract class Creature extends Entity {
 		return health;
 	}
 
-	public void damage(int dmg) {
+	public boolean damage(int dmg) {
 		// set the state to invincible state if not already there
-		if (!state.equals(CreatureState.States.Invincible)) {
+		if (!state.equals(CreatureState.States.Invincible) && !state.equals(CreatureState.States.Dead)) {
 			health -= dmg;
 			System.out.println(health);
 			curAnim.reset();
 			state = new InvincibleState();
 			state.enter(this);
+			return true;
 		}
+		return false;
 
 	}
 

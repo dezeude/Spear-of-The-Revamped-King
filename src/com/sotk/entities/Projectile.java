@@ -32,7 +32,7 @@ public abstract class Projectile extends Entity{
 	public Projectile(Vector2i position, Vector2f direction, BufferedImage sheet) {
 		this.position = new Vector2i(position);
 		resultantForce = new Vector2f(direction);
-		this.velocity = new Vector2f();
+		this.velocity = new Vector2f().mul(direction.length());
 		this.sheet = sheet;
 	}
 

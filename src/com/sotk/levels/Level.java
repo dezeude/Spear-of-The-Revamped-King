@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
+import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 import com.sotk.entities.Creature;
@@ -21,6 +22,7 @@ import com.sotk.entities.King;
 import com.sotk.entities.NPC;
 import com.sotk.entities.Player;
 import com.sotk.entities.Projectile;
+import com.sotk.entities.Spear;
 import com.sotk.main.GamePanel;
 import com.sotk.managers.Camera;
 import com.sotk.managers.Collisions;
@@ -135,16 +137,42 @@ public class Level {
 			proj.render(g);
 
 		if (showSpearTrajec) {
+			Vector2f spearVelocity = new Vector2f(
+					(game.getMouseWindowCoords().x + Camera.getXOffset()) - p.centerPos().x,
+					(game.getMouseWindowCoords().y + Camera.getYOffset()) - p.centerPos().y).normalize(15f);
+			Vector2i playerPos = p.centerPos();
+
+			Spear tempSpear = new Spear(playerPos, spearVelocity);
+
 			QuadCurve2D q = new QuadCurve2D.Float();
+
 			Vector2i mouseCoords = game.getMouseWindowCoords();
-			Vector2i pScreenCoords = new Vector2i(p.centerPos().x - Camera.getXOffset(), p.centerPos().y - Camera.getYOffset());
-			q.setCurve(pScreenCoords.x, pScreenCoords.y, mouseCoords.x - pScreenCoords.x,
-					mouseCoords.y - pScreenCoords.y, mouseCoords.x, mouseCoords.y);
-			Graphics2D g2d = (Graphics2D) g;
+			// game to window coords
+			Vector2i pScreenCoords = new Vector2i(p.centerPos().x - Camera.getXOffset(),
+					p.centerPos().y - Camera.getYOffset());
+
+			int anywhereOnCurveX = (mouseCoords.x + pScreenCoords.x) / 2;
+			int anywhereOnCurveY = Math.toIntExact(Math.round(tempSpear.calcYTrajecFromX(anywhereOnCurveX)));
+
+			int cpX = 2 * anywhereOnCurveX - pScreenCoords.x / 2 - mouseCoords.x / 2;
+			int cpY = 2 * anywhereOnCurveY - pScreenCoords.y / 2 - mouseCoords.y / 2;
+
+//			mouseCoords.x - pScreenCoords.x, -tempSpear.calcYTrajecFromX(mouseCoords.x - pScreenCoords.x, pScreenCoords.x), // critical point
+
+			// assuming player is aiming to the right
+			q.setCurve(pScreenCoords.x, pScreenCoords.y, // starting point
+					cpX, cpY, // critical point
+					mouseCoords.x, Math.toIntExact(Math.round(tempSpear.calcYTrajecFromX(mouseCoords.x))) // end point
+			);
+
+			// negate y values since graphics displays
+
+			Graphics2D g2d = (Graphics2D) g.create();
 			Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
 			g2d.setStroke(dashed);
 			g2d.setColor(Color.white);
 			g2d.draw(q);
+//			g2d.drawLine(pScreenCoords.x, pScreenCoords.y, mouseCoords.x, mouseCoords.y);
 		}
 
 	}
@@ -209,8 +237,7 @@ public class Level {
 	public boolean damageEnemies(Rectangle bounds, int damage) {
 		for (Creature e : enemies) {
 			if (bounds.intersects(e.getBounds())) {
-				e.damage(damage);
-				return true;
+				return e.damage(damage);
 			}
 		}
 		return false;

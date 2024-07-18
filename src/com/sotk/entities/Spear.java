@@ -17,7 +17,7 @@ import com.sotk.managers.TileMap;
 
 public class Spear extends Projectile {
 	private boolean stuck = false;
-	private int stuckTimer = GamePanel.targetFPS * 3; //three seconds
+	private int stuckTimer = GamePanel.targetFPS * 3; // three seconds
 	private final int stuckTimerMax = stuckTimer;
 
 	public Spear(int x, int y, float vx, float vy) {
@@ -74,7 +74,7 @@ public class Spear extends Projectile {
 
 	@Override
 	public void render(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2d = (Graphics2D) g.create();
 
 		float alpha = 1.0f;
 		if (stuck)
@@ -99,6 +99,14 @@ public class Spear extends Projectile {
 	public void addMetaData(String[] extras) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public double calcYTrajecFromX(double x) {
+		double angle = velocity.angle(new Vector2f(1, 0));
+		double leftSide = Math.tan(angle) * x;
+		double rightSide = (gravity.y * Math.pow(x, 2)) / 2.0 * Math.pow(velocity.length(),2) * Math.pow(Math.cos(angle), 2);
+		double y =  leftSide - rightSide;
+		return y;
 	}
 
 }

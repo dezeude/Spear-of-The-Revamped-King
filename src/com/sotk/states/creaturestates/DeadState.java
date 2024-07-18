@@ -20,6 +20,10 @@ public class DeadState extends CreatureState {
 			// despawn creature after it's been dead for a certain amount of time.
 			creature.canRemove = true;
 		}
+		
+		if(creature.death.isFinished())
+			creature.death.lock();
+		
 		return null;
 
 	}
