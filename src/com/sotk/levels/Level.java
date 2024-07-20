@@ -137,17 +137,28 @@ public class Level {
 			proj.render(g);
 
 		if (showSpearTrajec) {
-			Vector2i mouseCoords = game.getMouseWindowCoords();
-			Vector2f spearVelocity = new Vector2f((mouseCoords.x + Camera.getXOffset()) - p.centerPos().x,
-					(mouseCoords.y + Camera.getYOffset()) - p.centerPos().y).normalize(15f);
-			Vector2i playerPos = p.centerPos();
+			Vector2i mouseCoords = new Vector2i(game.getMouseWindowCoords().x,
+					game.getMouseWindowCoords().y);
+			mouseCoords = game.windowToBufferPoint(mouseCoords);
+			Vector2i playerPos = new Vector2i(p.centerPos().x - Camera.getXOffset(), p.centerPos().y - Camera.getYOffset());
 			
+			Vector2f spearVelocity = new Vector2f(mouseCoords.x - playerPos.x, mouseCoords.y - playerPos.y)
+					.normalize(15f);
+
 			// game to window coords
 			Vector2i pScreenCoords = new Vector2i(p.centerPos().x - Camera.getXOffset(),
 					p.centerPos().y - Camera.getYOffset());
-			
-			if(mouseCoords.y > pScreenCoords.y)
+
+			Graphics2D g2d = (Graphics2D) g.create();
+			Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
+			g2d.setStroke(dashed);
+			g2d.setColor(Color.white);
+
+			if (mouseCoords.y > pScreenCoords.y) {
+				g2d.drawLine(pScreenCoords.x, pScreenCoords.y, mouseCoords.x, mouseCoords.y);
+
 				return;
+			}
 
 			Spear tempSpear = new Spear(playerPos, spearVelocity);
 
@@ -155,9 +166,10 @@ public class Level {
 
 			int maxDisplacement = Math.toIntExact(Math.round(tempSpear.TrajecRange()));
 
-			//anywhere on the curve in game coordinates
+			// anywhere on the curve in game coordinates
 			int anywhereOnCurveX = pScreenCoords.x + (maxDisplacement / 2);
-			int anywhereOnCurveY = pScreenCoords.y - Math.toIntExact(Math.round(tempSpear.calcYTrajecFromX(maxDisplacement / 2)));
+			int anywhereOnCurveY = pScreenCoords.y
+					- Math.toIntExact(Math.round(tempSpear.calcYTrajecFromX(maxDisplacement / 2)));
 
 			int cpX = 2 * anywhereOnCurveX - pScreenCoords.x / 2 - (pScreenCoords.x + maxDisplacement) / 2;
 			int cpY = 2 * anywhereOnCurveY - pScreenCoords.y / 2 - pScreenCoords.y / 2;
@@ -174,12 +186,9 @@ public class Level {
 
 			// negate y values since graphics displays
 
-			Graphics2D g2d = (Graphics2D) g.create();
-			Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
-			g2d.setStroke(dashed);
-			g2d.setColor(Color.white);
 			g2d.draw(q);
 //			g2d.drawLine(pScreenCoords.x, pScreenCoords.y, mouseCoords.x, mouseCoords.y);
+			g2d.fillArc(mouseCoords.x, mouseCoords.y, 10, 10, 0, 360);
 		}
 
 	}
