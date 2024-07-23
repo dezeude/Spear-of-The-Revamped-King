@@ -9,6 +9,9 @@ import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -19,6 +22,7 @@ import com.sotk.entities.Entity;
 import com.sotk.entities.Goblin;
 import com.sotk.entities.Interactable;
 import com.sotk.entities.King;
+import com.sotk.entities.Mushroom;
 import com.sotk.entities.NPC;
 import com.sotk.entities.Player;
 import com.sotk.entities.Projectile;
@@ -51,19 +55,41 @@ public class Level {
 
 	boolean showSpearTrajec = false;
 
+	public class Door {
+		private final Rectangle bounds;
+		private final String levelTo;
+
+		// bounds, level-file-name
+		public Door(Rectangle bounds, String levelTo) {
+			this.bounds = bounds;
+			this.levelTo = levelTo;
+		}
+
+		public Rectangle getBounds() {
+			return bounds;
+		}
+
+		public String getlevelTo() {
+			return levelTo;
+		}
+	}
+
+	ArrayList<Door> doors;
+
 	public Level(String path, GameState gState, GamePanel game) {
 		this.path = path;
 		this.gState = gState;
 		this.game = game;
-
+		init();
 	}
 
 	public void init() {
 		projs = new ArrayList<>();
 		enemies = new ArrayList<>();
 		npcs = new ArrayList<>();
+		doors = new ArrayList<>();
+
 		tileMap = new TileMap(path, this);
-		p = new Player(64, 0, this);
 		background = new Background(new Color(126, 146, 176));
 
 		// add the background layers
@@ -91,12 +117,22 @@ public class Level {
 		b = new BackImage(path + "layers/Layer1.png", 1, 0, 210, 928, 793 - 210 - 65);
 		background.addLayer(b);
 
-//		tileMap.loadTMXMap();
 		curLevel = this;
 	}
 
 	public void update() {
 		p.update();
+
+		// loop through doors
+		for(Door door: doors) {
+			if(p.getBounds().intersects(door.getBounds())) {
+				System.out.println("level changed");
+				//change level
+				gState.setLevel(door.getlevelTo());
+				return;
+			}
+		}
+
 		if (p.getVelX() > 0 && Camera.getXOffset() > 0)
 			background.moveRight();
 		else if (p.getVelX() < 0 && Camera.getXOffset() > 0)
@@ -135,13 +171,20 @@ public class Level {
 			npc.render(g);
 		for (Projectile proj : projs)
 			proj.render(g);
+		
+		for(Door door: doors) {
+			Rectangle bounds = door.getBounds();
+			Graphics g2 = (Graphics)g.create();
+			g2.setColor(Color.orange);
+			g2.fillRect(bounds.x - Camera.getXOffset(), bounds.y - Camera.getYOffset(), (int)bounds.getWidth(), (int)bounds.getHeight());
+		}
 
 		if (showSpearTrajec) {
-			Vector2i mouseCoords = new Vector2i(game.getMouseWindowCoords().x,
-					game.getMouseWindowCoords().y);
+			Vector2i mouseCoords = new Vector2i(game.getMouseWindowCoords().x, game.getMouseWindowCoords().y);
 			mouseCoords = game.windowToBufferPoint(mouseCoords);
-			Vector2i playerPos = new Vector2i(p.centerPos().x - Camera.getXOffset(), p.centerPos().y - Camera.getYOffset());
-			
+			Vector2i playerPos = new Vector2i(p.centerPos().x - Camera.getXOffset(),
+					p.centerPos().y - Camera.getYOffset());
+
 			Vector2f spearVelocity = new Vector2f(mouseCoords.x - playerPos.x, mouseCoords.y - playerPos.y)
 					.normalize(15f);
 
@@ -174,9 +217,7 @@ public class Level {
 			int cpX = 2 * anywhereOnCurveX - pScreenCoords.x / 2 - (pScreenCoords.x + maxDisplacement) / 2;
 			int cpY = 2 * anywhereOnCurveY - pScreenCoords.y / 2 - pScreenCoords.y / 2;
 
-//			mouseCoords.x - pScreenCoords.x, -tempSpear.calcYTrajecFromX(mouseCoords.x - pScreenCoords.x, pScreenCoords.x), // critical point
-
-			// assuming player is aiming to the right
+			// draw spear predictor
 			q.setCurve(pScreenCoords.x, pScreenCoords.y, // starting point
 					cpX, cpY, // critical point
 					pScreenCoords.x + maxDisplacement, pScreenCoords.y // end point
@@ -184,11 +225,7 @@ public class Level {
 
 //			addProjectile(tempSpear);
 
-			// negate y values since graphics displays
-
 			g2d.draw(q);
-//			g2d.drawLine(pScreenCoords.x, pScreenCoords.y, mouseCoords.x, mouseCoords.y);
-			g2d.fillArc(mouseCoords.x, mouseCoords.y, 10, 10, 0, 360);
 		}
 
 	}
@@ -218,8 +255,12 @@ public class Level {
 
 	public void addMob(String name, int x, int y, String[] metadata) {
 		switch (name) {
+		case "Player":
+			this.p = new Player(x, y, this);
+			Camera.setPos(x, y);
+			break;
 		case "Goblin":
-			Goblin goblin = new Goblin(x, y, this);
+			Goblin goblin = new Goblin(x, y);
 			goblin.addMetaData(metadata);
 			enemies.add(goblin);
 			break;
@@ -228,6 +269,13 @@ public class Level {
 			King king = new King(x, y, this);
 			king.setSpeech(metadata);
 			npcs.add(king);
+			break;
+			
+		case "Mushroom":
+			System.out.println("mushroom added");
+			Mushroom mushroom = new Mushroom(x,y);
+			mushroom.addMetaData(metadata);
+			enemies.add(mushroom);
 			break;
 		}
 	}
@@ -283,6 +331,10 @@ public class Level {
 
 	public Player getPlayer() {
 		return p;
+	}
+
+	public void addDoor(Rectangle bounds, String name) {
+		doors.add(new Door(bounds, name));
 	}
 
 }

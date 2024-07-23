@@ -2,6 +2,7 @@ package com.sotk.entities;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import org.joml.Vector2f;
@@ -39,6 +40,7 @@ public abstract class Creature extends Entity {
 	public Animation takeHit;
 	public Animation death;
 	public Animation attack;
+	protected BufferedImage curFrame;
 
 	public void processStates() {
 		CreatureState state = this.state.update(this);

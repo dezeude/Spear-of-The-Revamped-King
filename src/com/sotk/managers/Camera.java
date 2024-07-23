@@ -33,10 +33,10 @@ public class Camera {
 			xOffset = 0;
 		if (yOffset < 0)
 			yOffset = 0;
-		if (xOffset > TileMap.width * TileMap.TILELENGTH)
-			xOffset = TileMap.width * TileMap.TILELENGTH;
-		if (yOffset > TileMap.height * TileMap.TILELENGTH)
-			yOffset = TileMap.height * TileMap.TILELENGTH;
+		if (xOffset + GamePanel.getGraphicsWidth() > TileMap.width * TileMap.TILELENGTH)
+			xOffset = (TileMap.width * TileMap.TILELENGTH) - GamePanel.getGraphicsWidth();
+		if (yOffset + GamePanel.getGraphicsHeight() > TileMap.height * TileMap.TILELENGTH)
+			yOffset = (TileMap.height * TileMap.TILELENGTH) - GamePanel.getGraphicsHeight();
 	}
 
 	public static void setPos(int x, int y) {

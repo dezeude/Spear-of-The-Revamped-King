@@ -19,54 +19,23 @@ public class Goblin extends Enemy {
 	// render bounds
 //	private int renderWidth = 150, renderHeight = 150;
 	// sprite sheet
-	private static BufferedImage sheet;
-	BufferedImage curFrame;
-	Level level;
-
-//	private static Goblin firstGoblin;
-
-	public Goblin(int x, int y, Level level) {
+	static BufferedImage sheet = null;
+	public Goblin(int x, int y) {
 		position.x = x;
 		position.y = y;
 		bw = 22;
 		bh = 36;
 		health = 3;
-		this.level = level;
 		if (sheet == null)
 			sheet = AssetsManager.loadImage("/animations/mobs/enemies/goblin/goblinSprite.png");
 		loadAnimations();
 		curAnim = idle;
 	}
 
-//	public Goblin newGoblin(int x, int y, Level level) {
-////*******************************************
-////APPLY THIS TECHNIQUE TO ALL THE ENEMIES
-//
-//		position.x = x;
-//		position.y = y;
-//		bw = 22;
-//		bh = 36;
-//		this.level = level;
-////		if(sheet == null)
-////			sheet = AssetsManager.loadImage("/mobs/enemies/goblin/goblinSprite.png");
-//		
-//		if(firstGoblin == null) { //if this is the first instance of the goblin
-//			firstGoblin = this;
-//			loadAnimations();
-//			return this;
-//		}
-//		//if not, share the image frames, to save memory
-//		idle = new Animation(firstGoblin.idle);
-//		run = new Animation(firstGoblin.run);
-//		return this;
-//		
-//	}
-//	
 	private void loadAnimations() {
 		idle = new Animation(sheet, 0, 150, 150, 4, 0.1f);
 		run = new Animation(sheet, 1, 150, 150, 8, 0.2f);
 		takeHit = new Animation(sheet, 5, 150, 150, 4, 0.14f);
-//		takeHit = new Animation(sheet, 3, 150, 8, 0.14f);
 		death = new Animation(sheet, 6, 150, 150, 4, 0.14f);
 		attack = new Animation(sheet, 2, 150, 150, 8, 0.14f);
 		attack.setAttackFrame(6, 80, 71, 40, 30);
@@ -91,25 +60,25 @@ public class Goblin extends Enemy {
 	public void update() {
 		processStates();
 		if (alive) {
-			if (level.getPlayer().alive && level.getPlayer().getDist(getBounds()) <= 250) {// if the player is alive
+			if (Level.curLevel.getPlayer().alive && Level.curLevel.getPlayer().getDist(getBounds()) <= 250) {// if the player is alive
 				// moving towards the player
-				if (level.getPlayer().getDist(getBounds()) <= 20) {
+				if (Level.curLevel.getPlayer().getDist(getBounds()) <= 20) {
 					// the player is right in front of the goblin
 					velocity.x = 0;
 				}
-				else if ((level.getPlayerBounds().x + level.getPlayerBounds().width) / 2 > (this.position.x + this.bw) / 2) {
+				else if ((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width) / 2 > (this.position.x + this.bw) / 2) {
 					// the player is on the right
 					velocity.x = 2;
 					facingRight = true;
 				}
 
-				else if((level.getPlayerBounds().x + level.getPlayerBounds().width) / 2 < (this.position.x + this.bw) / 2)
+				else if((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width) / 2 < (this.position.x + this.bw) / 2)
 				{
 					// the player is on the left
 					velocity.x = -2;
 					facingRight = false;
 				}
-			} else if (!level.getPlayer().isAlive())
+			} else if (!Level.curLevel.getPlayer().isAlive())
 				velocity.x = 0;
 
 		}
@@ -124,7 +93,7 @@ public class Goblin extends Enemy {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				level.enemyAttack(newB, 1);
+				Level.curLevel.enemyAttack(newB, 1);
 			}
 
 		}
@@ -137,7 +106,7 @@ public class Goblin extends Enemy {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				level.enemyAttack(newB, 1);
+				Level.curLevel.enemyAttack(newB, 1);
 			}
 		}
 

@@ -1,6 +1,6 @@
 package com.sotk.states;
 
-import java.awt.Color; 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -13,47 +13,45 @@ import com.sotk.main.GamePanel;
 import com.sotk.main.Launcher;
 import com.sotk.managers.TileMap;
 
-public class GameState extends State{
+public class GameState extends State {
 	GamePanel game;
 	Level curLevel;
-	int level = 1;
 
-	public GameState(GamePanel game){
+	public GameState(GamePanel game) {
 		this.game = game;
 		init();
 	}
 
 	@Override
 	public void init() {
-		curLevel = new Level("/worlds/world" + level + "/", this, game);
-		curLevel.init();
+		setLevel("level_1");
 	}
 
 	@Override
 	public void update() {
-		//moving up and down
-		
+		// moving up and down
+
 		curLevel.update();
-		
+
 //		System.out.println("Width: " + game.getWidth() + " Height: " + game.getHeight());
-		
+
 	}
 
 	@Override
 	public void render(Graphics g) {
-		//render the level
+		// render the level
 		curLevel.render(g);
-		
-	}	
-	
+
+	}
+
 	@Override
 	public void keyPressed(int key) {
-		
+
 	}
 
 	@Override
 	public void keyReleased(int key) {
-		if(key == KeyEvent.VK_SPACE)
+		if (key == KeyEvent.VK_SPACE)
 			curLevel.interact();
 	}
 
@@ -66,19 +64,10 @@ public class GameState extends State{
 	public void mouseReleased(int mouseBtn, int x, int y) {
 		curLevel.mouseReleased(mouseBtn, x, y);
 	}
-	
-	public void nextLevel(String path) {
-		//path is the file location of the next level TMX file
-		if(level < 9) {//level Max??
-			level++;
-			curLevel = new Level("/worlds/world" + level + "/", this, game);
-		}
-		else {
-			//play End Credits and then change level back to 1
-		}
+
+	public void setLevel(String newLevel) {
+		curLevel = new Level("/levels/" + newLevel + "/", this, game);
+		Level.curLevel = curLevel;
 	}
 
-
-
-	
 }

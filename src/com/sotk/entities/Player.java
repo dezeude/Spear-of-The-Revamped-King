@@ -44,7 +44,7 @@ public class Player extends Creature {
 
 	public Player(int x, int y, Level level) {
 		// make the width and height of the gamePanel static
-		velocity = new Vector2f(x, y);
+		position.set(x, y);
 		bw = 20;
 		bh = 40;
 		health = 3;

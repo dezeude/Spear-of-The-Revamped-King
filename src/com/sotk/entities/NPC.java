@@ -64,7 +64,7 @@ public abstract class NPC extends Entity implements Interactable{
 		position.y = y;
 		this.level = level;
 		speechIndex = -1;
-		selectImage = AssetsManager.loadImage("/worlds/Assets/arrow.png");
+		selectImage = AssetsManager.loadImage("/levels/Assets/arrow.png");
 	}
 
 	@Override

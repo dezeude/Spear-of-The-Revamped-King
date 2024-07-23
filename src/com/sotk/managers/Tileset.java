@@ -40,7 +40,7 @@ public class Tileset {
 		//load the Map
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse(AssetsManager.class.getResourceAsStream("/worlds" + tsName));
+		Document doc = builder.parse(AssetsManager.class.getResourceAsStream("/levels" + tsName));
 		
 		//breakpoint here!
 		//error when loading document!
@@ -62,7 +62,7 @@ public class Tileset {
 		String imgName = imgPath.substring(imgPath.indexOf("/Assets"));
 		
 		//load tileSet image
-		tileSet = AssetsManager.loadImage("/worlds" + imgName);
+		tileSet = AssetsManager.loadImage("/levels" + imgName);
 		TileTypes = new BufferedImage[tileCount];
 		int count = 0;
 		
