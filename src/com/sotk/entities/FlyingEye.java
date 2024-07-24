@@ -1,10 +1,12 @@
 package com.sotk.entities;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import com.sotk.managers.AssetsManager;
 
 public class FlyingEye extends Enemy{
+	static BufferedImage sheet = null;
 	
 	public FlyingEye(int x, int y) {
 		position.x = x;
