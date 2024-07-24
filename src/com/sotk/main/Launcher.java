@@ -4,6 +4,8 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 import javax.swing.JFrame;
 
@@ -12,9 +14,10 @@ import com.sotk.managers.AssetsManager;
 public class Launcher {
 
 	public static JFrame frame;
+	public static BufferedImage icon;
 
 	public static void main(String[] args) {
-		Image icon = AssetsManager.loadImage("/misc/Spear.png");
+		icon = AssetsManager.loadImage("/misc/Spear.png");
 		frame = new JFrame("Spear of the King");
 		frame.setIconImage(icon);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

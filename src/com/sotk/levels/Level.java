@@ -126,9 +126,9 @@ public class Level {
 		// loop through doors
 		for(Door door: doors) {
 			if(p.getBounds().intersects(door.getBounds())) {
-				System.out.println("level changed");
+				System.out.println("Changing Levels!");
 				//change level
-				gState.setLevel(door.getlevelTo());
+				gState.loadLevel(door.getlevelTo());
 				return;
 			}
 		}
