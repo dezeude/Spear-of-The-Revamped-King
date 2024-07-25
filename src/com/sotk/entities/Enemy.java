@@ -17,7 +17,6 @@ public abstract class Enemy extends Creature {
 				Rectangle curAttackFrame = curAnim.getAttackFrame();
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
-//				System.out.println(curAttackFrame);
 				Level.curLevel.enemyAttack(newB, 1);
 			}
 		} else {
@@ -27,7 +26,6 @@ public abstract class Enemy extends Creature {
 				Rectangle curAttackFrame = curAnim.getAttackFrame();
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
-//				System.out.println(curAttackFrame);
 				Level.curLevel.enemyAttack(newB, 1);
 			}
 		}
