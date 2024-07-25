@@ -16,25 +16,15 @@ import com.sotk.managers.KeyManager;
 import com.sotk.states.playerstates.PlayerState;
 
 public class Player extends Creature {
-	private int xOff = 64, yOff = 57; // bounds x and y offsets, with the width and height
 	private float maxSpeed = 5.0f;
 	private int timeSinceJumped = 0;
 	private boolean isJumping = false;
-	private final float knockBack = 5.0f;
-	private int renderDimensions = 150;
 
 	KeyManager keyManager;
 
-	public Animation curAnim;
-	public Animation idle;
-	public Animation run;
-	public Animation attack2;
 	public Animation jump;
 	public Animation fall;
-	public Animation takeHit;
-	public Animation death;
 	public Animation throwing;
-	BufferedImage curFrame;
 
 	long lastClicked;
 
@@ -43,6 +33,9 @@ public class Player extends Creature {
 	public PlayerState state;
 
 	public Player(int x, int y, Level level) {
+		// bounds x and y offsets, with the width and height
+		xOff = 64;
+		yOff = 57; 
 		// make the width and height of the gamePanel static
 		position.set(x, y);
 		bw = 20;
@@ -73,8 +66,8 @@ public class Player extends Creature {
 //		attack1 = new Animation("/animations/player/Attack1.png", 5, 0.3f);
 
 		// load the attack2 animation
-		attack2 = new Animation("/animations/player/Attack2.png", 5, 0.4f);
-		attack2.setAttackFrame(3, 85, 37, 40, 60);
+		attack = new Animation("/animations/player/Attack2.png", 5, 0.4f);
+		attack.setAttackFrame(3, 85, 37, 40, 60);
 
 		jump = new Animation("/animations/player/Jump.png", 2, 0.2f);
 
@@ -84,41 +77,6 @@ public class Player extends Creature {
 		death = new Animation("/animations/player/Death.png", 8, 0.1f);
 
 		throwing = new Animation("/animations/player/Attack3.png", 7, 0.2f);
-	}
-
-	public void doPhysics() {
-		if (bottom) {// if the player is standing on a tile
-			// change the y velocity so the player falls slower
-			velocity.y = 1;
-		} else {// if player is falling
-
-			velocity.y += 0.45f;
-			// apply gravity
-		}
-		if (velocity.x > 0) { // player moving right
-			if (velocity.x <= 1)
-				velocity.x = 0;
-			else
-				velocity.x--;
-		}
-		if (velocity.x < 0) { // player moving left
-			if (velocity.x >= -1)
-				velocity.x = 0;
-			else
-				velocity.x++;
-		}
-
-		top = false;
-		bottom = false;
-		left = false;
-		right = false;
-
-		force.div(mass);
-		velocity.add(force);
-//		velocity.mul(dt);	
-		force.zero();
-
-		move((int) velocity.x, (int) velocity.y); // move the player and check for collisions
 	}
 
 	public void processInput() {
@@ -175,45 +133,8 @@ public class Player extends Creature {
 			Camera.smoothTo(position.x + bw / 2, position.y + bh / 2);// center player in the middle of the screen.
 			// TODO: Fix SmoothTo
 		}
-		doPhysics();
 
-		if (facingRight) {
-			curFrame = curAnim.getCurFrame();
-
-			if (curAnim.hasAttackFrame()) { // if the attack frame exists
-				Rectangle curAttackFrame = curAnim.getAttackFrame();
-				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
-						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
-//				System.out.println(curAttackFrame);
-				level.damageEnemies(newB, 1);
-			}
-		} else {
-			curFrame = curAnim.getMirrorFrame();
-
-			if (curAnim.hasAttackFrame()) { // if the attack frame exists
-				Rectangle curAttackFrame = curAnim.getAttackFrame();
-				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
-						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
-//				System.out.println(curAttackFrame);
-				level.damageEnemies(newB, 1);
-			}
-		}
-
-		curAnim.play();
-
-	}
-
-	@Override
-	public void render(Graphics g) {
-//		g.fillRect(position.x - xOff - Camera.getXOffset(),
-//				   position.y - yOff - Camera.getYOffset(),
-//				   renderDimensions,
-//				   renderDimensions);
-		// draw the player
-		g.drawImage(curFrame, position.x - xOff - Camera.getXOffset(), position.y - yOff - Camera.getYOffset(),
-				renderDimensions, renderDimensions, null);
-//		g.drawLine(position.x + bw/2 - Camera.getXOffset(), position.y+bh/2 - Camera.getYOffset(), mouseX, mouseY);
-
+		super.update();
 	}
 
 	public Rectangle getBounds() {
@@ -231,17 +152,6 @@ public class Player extends Creature {
 
 	public float getVelY() {
 		return velocity.y;
-	}
-
-	public void addForce(Vector2f force) {
-		force.normalize(force);
-		force.mul(knockBack, force);
-		this.force.add(force);
-		force.zero();
-	}
-
-	public void addForce(Vector2i force) {
-		addForce(new Vector2f((float) force.x, (float) force.y));
 	}
 
 	public void holdSpear() {
@@ -273,7 +183,7 @@ public class Player extends Creature {
 	public boolean damage(int dmg) {
 		if (state.equals(PlayerState.dead) || state.equals(PlayerState.invincible))
 			return false;
-		else { //damage the player
+		else { // damage the player
 			health -= dmg;
 			curAnim.reset();
 			state = PlayerState.invincible;

@@ -6,13 +6,13 @@ public class AttackingState extends PlayerState {
 
 	@Override
 	public void enter(Player player) {
-		player.curAnim = player.attack2;
+		player.curAnim = player.attack;
 		
 	}
 
 	@Override
 	public void update(Player player) {
-		if (player.attack2.isFinished()) {
+		if (player.attack.isFinished()) {
 			player.setState(PlayerState.idle);
 		}
 		

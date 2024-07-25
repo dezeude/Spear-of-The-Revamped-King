@@ -15,12 +15,13 @@ import com.sotk.states.creaturestates.AttackingState;
 
 public class Goblin extends Enemy {
 	// position offsets
-	private int xOff = 64, yOff = 64; // placeholder values
 	// render bounds
 //	private int renderWidth = 150, renderHeight = 150;
 	// sprite sheet
 	static BufferedImage sheet = null;
+
 	public Goblin(int x, int y) {
+		xOff = 64; yOff = 64;
 		position.x = x;
 		position.y = y;
 		bw = 22;
@@ -40,40 +41,25 @@ public class Goblin extends Enemy {
 		attack = new Animation(sheet, 2, 150, 150, 8, 0.14f);
 		attack.setAttackFrame(6, 80, 71, 40, 30);
 	}
-
-	@Override
-	public void doPhysics() {
-		if (!bottom)
-			velocity.y += 0.45f;
-		else
-			velocity.y = 1;
-
-		top = false;
-		bottom = false;
-		left = false;
-		right = false;
-
-		move((int) velocity.x, (int) velocity.y);
-	}
-
+	
 	@Override
 	public void update() {
-		processStates();
 		if (alive) {
-			if (Level.curLevel.getPlayer().alive && Level.curLevel.getPlayer().getDist(getBounds()) <= 250) {// if the player is alive
-				// moving towards the player
+			if (Level.curLevel.getPlayer().alive && Level.curLevel.getPlayer().getDist(getBounds()) <= 250) {
+				// if the player is alive
+				// move towards the player
 				if (Level.curLevel.getPlayer().getDist(getBounds()) <= 20) {
 					// the player is right in front of the goblin
 					velocity.x = 0;
-				}
-				else if ((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width) / 2 > (this.position.x + this.bw) / 2) {
+				} else if ((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width)
+						/ 2 > (this.position.x + this.bw) / 2) {
 					// the player is on the right
 					velocity.x = 2;
 					facingRight = true;
 				}
 
-				else if((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width) / 2 < (this.position.x + this.bw) / 2)
-				{
+				else if ((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width)
+						/ 2 < (this.position.x + this.bw) / 2) {
 					// the player is on the left
 					velocity.x = -2;
 					facingRight = false;
@@ -83,58 +69,7 @@ public class Goblin extends Enemy {
 
 		}
 
-		doPhysics();
-
-		if (facingRight) {
-			curFrame = curAnim.getCurFrame();
-
-			if (curAnim.hasAttackFrame()) { // if the attack frame exists
-				Rectangle curAttackFrame = curAnim.getAttackFrame();
-				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
-						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
-//				System.out.println(curAttackFrame);
-				Level.curLevel.enemyAttack(newB, 1);
-			}
-
-		}
-
-		else {
-			curFrame = curAnim.getMirrorFrame();
-
-			if (curAnim.hasAttackFrame()) { // if the attack frame exists
-				Rectangle curAttackFrame = curAnim.getAttackFrame();
-				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
-						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
-//				System.out.println(curAttackFrame);
-				Level.curLevel.enemyAttack(newB, 1);
-			}
-		}
-
-		curAnim.play();
-	}
-
-	@Override
-	public void render(Graphics g) {
-
-		g.drawImage(curFrame, position.x - xOff - Camera.getXOffset(), position.y - yOff - Camera.getYOffset(),
-				curFrame.getWidth(), curFrame.getHeight(), null);
-
-		// draw line from middle of goblin to middle of player
-//		g.drawLine(bx + bw/2 - Camera.getXOffset(), by + bh/2 - Camera.getYOffset(),
-//					level.getPlayerBounds().x + level.getPlayerBounds().width/2 - Camera.getXOffset(),
-//					level.getPlayerBounds().y + level.getPlayerBounds().height/2 - Camera.getYOffset());
-	}
-
-	@Override
-	public int getX() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		super.update();
 	}
 
 }

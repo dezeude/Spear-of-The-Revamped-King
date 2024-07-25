@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 
+import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
+import com.sotk.managers.Camera;
 import com.sotk.managers.TileMap;
 import com.sotk.states.creaturestates.AttackingState;
 import com.sotk.states.creaturestates.CreatureState;
@@ -41,6 +43,9 @@ public abstract class Creature extends Entity {
 	public Animation death;
 	public Animation attack;
 	protected BufferedImage curFrame;
+	private final float knockBack = 5.0f;
+	
+	protected int xOff, yOff;
 
 	public void processStates() {
 		CreatureState state = this.state.update(this);
@@ -54,10 +59,39 @@ public abstract class Creature extends Entity {
 	}
 
 	@Override
-	public abstract void update();
+	public void update() {
+		processStates();
+		doPhysics();
+		if (facingRight) {
+			curFrame = curAnim.getCurFrame();
+
+			if (curAnim.hasAttackFrame()) { // if the attack frame exists
+				Rectangle curAttackFrame = curAnim.getAttackFrame();
+				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
+						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
+//				System.out.println(curAttackFrame);
+				Level.curLevel.damageEnemies(newB, 1);
+			}
+		} else {
+			curFrame = curAnim.getMirrorFrame();
+
+			if (curAnim.hasAttackFrame()) { // if the attack frame exists
+				Rectangle curAttackFrame = curAnim.getAttackFrame();
+				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
+						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
+//				System.out.println(curAttackFrame);
+				Level.curLevel.damageEnemies(newB, 1);
+			}
+		}
+
+		curAnim.play();
+	}
 
 	@Override
-	public abstract void render(Graphics g);
+	public void render(Graphics g) {
+		g.drawImage(curFrame, position.x - xOff - Camera.getXOffset(), position.y - yOff - Camera.getYOffset(),
+				curFrame.getWidth(), curFrame.getHeight(), null);
+	}
 
 	@Override
 	public int getX() {
@@ -180,5 +214,33 @@ public abstract class Creature extends Entity {
 		return alive;
 	}
 	
-	public abstract void doPhysics();
+	public void doPhysics() {
+		if (bottom)
+			velocity.y = 1;
+		else
+			velocity.y += 0.45f;
+
+		top = false;
+		bottom = false;
+		left = false;
+		right = false;
+
+		force.div(mass);
+		velocity.add(force);
+//		velocity.mul(dt);	
+		force.zero();
+
+		move((int) velocity.x, (int) velocity.y);
+	}
+	
+	public void addForce(Vector2f force) {
+		force.normalize(force);
+		force.mul(knockBack, force);
+		this.force.add(force);
+		force.zero();
+	}
+
+	public void addForce(Vector2i force) {
+		addForce(new Vector2f((float) force.x, (float) force.y));
+	}
 }
