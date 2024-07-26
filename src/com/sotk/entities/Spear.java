@@ -86,13 +86,13 @@ public class Spear extends Projectile {
 		double theta = Math.atan2(velocity.y, velocity.x);
 
 		transform.rotate(theta);
-		transform = AffineTransform.getTranslateInstance(position.x - sheet.getWidth() / 2 - Camera.getXOffset(),
-				position.y - sheet.getHeight() / 2 - Camera.getYOffset());
+		transform = AffineTransform.getTranslateInstance(position.x - sprite.getWidth() / 2 - Camera.getXOffset(),
+				position.y - sprite.getHeight() / 2 - Camera.getYOffset());
 
-		transform.rotate(theta, sheet.getWidth() / 2, sheet.getHeight() / 2);
+		transform.rotate(theta, sprite.getWidth() / 2, sprite.getHeight() / 2);
 
 		// spear
-		g2d.drawImage(sheet, transform, null);
+		g2d.drawImage(sprite, transform, null);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public abstract class Creature extends Entity {
 
 	public static final Vector2f gravity = new Vector2f(0, 9.81f);
 
-	private CreatureState state = new IdleState();
+	protected CreatureState state = new IdleState();
 
 	// animations
 	public Animation curAnim;
@@ -43,7 +43,7 @@ public abstract class Creature extends Entity {
 	public Animation death;
 	public Animation attack;
 	protected BufferedImage curFrame;
-	private final float knockBack = 5.0f;
+	protected final float knockBack = 5.0f;
 	
 	protected int xOff, yOff;
 
@@ -70,7 +70,7 @@ public abstract class Creature extends Entity {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				Level.curLevel.damageEnemies(newB, 1);
+				Level.curLevel.enemyAttack(newB, 1);
 			}
 		} else {
 			curFrame = curAnim.getMirrorFrame();
@@ -80,7 +80,7 @@ public abstract class Creature extends Entity {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				Level.curLevel.damageEnemies(newB, 1);
+				Level.curLevel.enemyAttack(newB, 1);
 			}
 		}
 

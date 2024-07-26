@@ -6,51 +6,44 @@ import java.awt.image.BufferedImage;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 
-public abstract class Projectile extends Entity{
+public abstract class Projectile extends Entity {
 	protected float mass = 1.0f;
-	protected BufferedImage sheet;
-	
+	protected BufferedImage sprite;
+
 	public Vector2f velocity;
 	public Vector2f resultantForce;
-	
+
 	public static Vector2f gravity = new Vector2f(0, .981f / 2);
-	
+
 	public Projectile(int x, int y, float vx, float vy, BufferedImage sheet) {
 		position.set(x, y);
 		velocity = new Vector2f();
 		resultantForce = new Vector2f(vx, vy);
-		this.sheet = sheet;
+		this.sprite = sheet;
 	}
-	
+
 	public Projectile(int x, int y, Vector2f direction, BufferedImage sheet) {
-		position.set(x, y);
-		resultantForce = new Vector2f(direction);
-		this.velocity = new Vector2f();
-		this.sheet = sheet;
+		this(x, y, direction.x, direction.y, sheet);
 	}
-	
+
 	public Projectile(Vector2i position, Vector2f direction, BufferedImage sheet) {
-		this.position = new Vector2i(position);
-		resultantForce = new Vector2f(direction);
-		this.velocity = new Vector2f().mul(direction.length());
-		this.sheet = sheet;
+		this(position.x, position.y, direction.x, direction.y, sheet);
 	}
 
 	public void update() {
 		Vector2f temp = new Vector2f();
 		gravity.mul(mass, temp);
 		applyForce(temp);
-		
+
 		resultantForce.div(mass);
 		velocity.add(resultantForce);
-		position.add((int)velocity.x, (int)velocity.y);
+		position.add((int) velocity.x, (int) velocity.y);
 		resultantForce.zero();
 	}
-	
+
 	public void applyForce(Vector2f force) {
 		resultantForce.add(force.div(mass), resultantForce);
 //		System.out.println("Force applied");
 	}
-	
-	
+
 }

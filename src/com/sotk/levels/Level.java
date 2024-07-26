@@ -132,7 +132,8 @@ public class Level {
 				return;
 			}
 		}
-
+		
+		//move background
 		if (p.getVelX() > 0 && Camera.getXOffset() > 0)
 			background.moveRight();
 		else if (p.getVelX() < 0 && Camera.getXOffset() > 0)

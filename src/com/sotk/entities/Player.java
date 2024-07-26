@@ -133,8 +133,31 @@ public class Player extends Creature {
 			Camera.smoothTo(position.x + bw / 2, position.y + bh / 2);// center player in the middle of the screen.
 			// TODO: Fix SmoothTo
 		}
+		doPhysics();
 
-		super.update();
+		if (facingRight) {
+			curFrame = curAnim.getCurFrame();
+
+			if (curAnim.hasAttackFrame()) { // if the attack frame exists
+				Rectangle curAttackFrame = curAnim.getAttackFrame();
+				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
+						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
+//				System.out.println(curAttackFrame);
+				Level.curLevel.damageEnemies(newB, 1);
+			}
+		} else {
+			curFrame = curAnim.getMirrorFrame();
+
+			if (curAnim.hasAttackFrame()) { // if the attack frame exists
+				Rectangle curAttackFrame = curAnim.getAttackFrame();
+				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
+						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
+//				System.out.println(curAttackFrame);
+				Level.curLevel.damageEnemies(newB, 1);
+			}
+		}
+
+		curAnim.play();
 	}
 
 	public Rectangle getBounds() {

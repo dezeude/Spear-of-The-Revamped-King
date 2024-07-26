@@ -5,7 +5,7 @@ import com.sotk.entities.Creature;
 public abstract class CreatureState { // Instantiated FSM
 
 	public enum States {
-		Attacking, Dead, Idle, Invincible, Running
+		Attacking, Dead, Idle, Invincible, Running, Special
 	}
 
 	public abstract void enter(Creature creature); // enters the state
