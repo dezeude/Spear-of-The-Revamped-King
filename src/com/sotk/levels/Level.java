@@ -297,12 +297,12 @@ public class Level {
 	/**
      * returns true if the entity was damaged/attacked.
      */
-	public boolean damageEnemies(Rectangle bounds, int damage) {
+	public boolean damageEnemies(Rectangle bounds, int damage, Creature owner) {
 		// TODO: store the owner of the attack bounds for better directional knockback
 		for (Creature e : enemies) {
 			if (bounds.intersects(e.getBounds())) {
 				Vector2i dir = new Vector2i();
-				e.centerPos().sub((int)Math.round(bounds.getCenterX()),(int)Math.round(bounds.getCenterY()), dir);
+				e.centerPos().sub(owner.centerPos().x,owner.centerPos().y(), dir);
 				
 				return e.damage(damage, new Vector2f(dir.x,dir.y));
 			}
@@ -310,9 +310,9 @@ public class Level {
 		return false;
 	}
 
-	public boolean enemyAttack(Rectangle bounds, int damage) {
+	public boolean enemyAttack(Rectangle bounds, int damage, Creature owner) {
 		if (bounds.intersects(p.getBounds())) {
-			Vector2i boundsCenter = new Vector2i(bounds.x + bounds.width / 2, bounds.y + bounds.height);
+			Vector2i boundsCenter = new Vector2i(owner.centerPos().x(), owner.centerPos().y());
 			Vector2i dest = new Vector2i();
 			p.centerPos().sub(boundsCenter, dest);
 			return p.damage(damage, new Vector2f(dest.x,dest.y));

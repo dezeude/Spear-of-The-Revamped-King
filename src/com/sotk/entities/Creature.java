@@ -73,7 +73,7 @@ public abstract class Creature extends Entity {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				Level.curLevel.enemyAttack(newB, 1);
+				Level.curLevel.enemyAttack(newB, 1, this);
 			}
 		} else {
 			curFrame = curAnim.getMirrorFrame();
@@ -83,7 +83,7 @@ public abstract class Creature extends Entity {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				Level.curLevel.enemyAttack(newB, 1);
+				Level.curLevel.enemyAttack(newB, 1, this);
 			}
 		}
 

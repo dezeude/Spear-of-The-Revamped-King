@@ -139,7 +139,7 @@ public class Player extends Creature {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				Level.curLevel.damageEnemies(newB, 1);
+				Level.curLevel.damageEnemies(newB, 1, this);
 			}
 		} else {
 			curFrame = curAnim.getMirrorFrame();
@@ -149,7 +149,7 @@ public class Player extends Creature {
 				Rectangle newB = new Rectangle(position.x - xOff + curAttackFrame.x - bw - curAttackFrame.width,
 						position.y - yOff + curAttackFrame.y, curAttackFrame.width, curAttackFrame.height);
 //				System.out.println(curAttackFrame);
-				Level.curLevel.damageEnemies(newB, 1);
+				Level.curLevel.damageEnemies(newB, 1, this);
 			}
 		}
 

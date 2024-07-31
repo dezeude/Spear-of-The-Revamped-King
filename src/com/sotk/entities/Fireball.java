@@ -13,8 +13,8 @@ import com.sotk.managers.AssetsManager;
 public class Fireball extends LinearProjectile {
 	BufferedImage fireSprite = AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Projectile.png");
 
-	public Fireball(int x, int y, Vector2f direction, int speed) {
-		super(x, y, direction, speed);
+	public Fireball(int x, int y, Vector2f direction, int speed, Creature owner) {
+		super(x, y, direction, speed, owner);
 		anim = new Animation(fireSprite, 0, 50, 50, 8, 0.15f);
 		xOff = 25;
 		yOff = 25;
@@ -23,8 +23,8 @@ public class Fireball extends LinearProjectile {
 		lifeTime = 80;
 	}
 
-	public Fireball(Vector2i position, Vector2f direction, int speed) {
-		this(position.x, position.y, direction, speed);
+	public Fireball(Vector2i position, Vector2f direction, int speed, Creature owner) {
+		this(position.x, position.y, direction, speed, owner);
 	}
 
 }

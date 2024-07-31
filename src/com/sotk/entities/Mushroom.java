@@ -85,7 +85,7 @@ public class Mushroom extends Enemy {
 
 		dir.x = facingRight ? 1 : -1;
 
-		Level.curLevel.addProjectile(new Fireball(centerPos().x, centerPos().y, dir, 6));
+		Level.curLevel.addProjectile(new Fireball(centerPos().x, centerPos().y, dir, 6, this));
 	}
 
 }

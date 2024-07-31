@@ -14,27 +14,30 @@ public abstract class LinearProjectile extends Projectile {
 	protected Animation anim;
 	protected int xOff, yOff;
 	protected Vector2f direction;
-	
+
 	protected int radius;
 	protected int lifeTime;
 
-	public LinearProjectile(int x, int y, Vector2f direction, int speed) {
+	protected Creature owner;
+
+	public LinearProjectile(int x, int y, Vector2f direction, int speed, Creature owner) {
 		super(x, y, direction.x, direction.y, null);
 		this.direction = new Vector2f(direction.x, direction.y);
 		this.direction.normalize(speed);
+		this.owner = owner;
 	}
 
 	@Override
 	public void update() {
 		position.add((int) Math.round(direction.x), (int) Math.round(direction.y));
-		
+
 		lifeTime--;
 		if (lifeTime <= 0)
 			anim.unlock();
-		
+
 		if (anim.getIndex() == 0) {
 
-			if (Level.curLevel.enemyAttack(new Rectangle(position.x, position.y, radius, radius), 1)) {
+			if (Level.curLevel.enemyAttack(new Rectangle(position.x, position.y, radius, radius), 1, owner)) {
 				anim.unlock();
 				direction.zero();
 			}
@@ -42,7 +45,7 @@ public abstract class LinearProjectile extends Projectile {
 			canRemove = true;
 		}
 //the animation is only played when the projectile hits something or despawns.
-		anim.play(); 
+		anim.play();
 	}
 
 	@Override
