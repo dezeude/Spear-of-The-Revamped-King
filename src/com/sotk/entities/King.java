@@ -47,7 +47,7 @@ public class King extends NPC{
 	}
 	
 	public void update() {
-		if(level.getPlayerBounds().x > position.x)
+		if(level.getPlayer().getBounds().x > position.x)
 			facingRight = true;
 		else
 			facingRight = false;

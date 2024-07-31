@@ -27,6 +27,7 @@ public class Goblin extends Enemy {
 		bw = 22;
 		bh = 36;
 		health = 3;
+		attackRange = bw * 3;
 		if (sheet == null)
 			sheet = AssetsManager.loadImage("/animations/mobs/enemies/goblin/goblinSprite.png");
 		loadAnimations();
@@ -51,14 +52,14 @@ public class Goblin extends Enemy {
 				if (Level.curLevel.getPlayer().getDist(getBounds()) <= 20) {
 					// the player is right in front of the goblin
 					velocity.x = 0;
-				} else if ((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width)
+				} else if ((Level.curLevel.getPlayer().getBounds().x + Level.curLevel.getPlayer().getBounds().width)
 						/ 2 > (this.position.x + this.bw) / 2) {
 					// the player is on the right
 					velocity.x = 2;
 					facingRight = true;
 				}
 
-				else if ((Level.curLevel.getPlayerBounds().x + Level.curLevel.getPlayerBounds().width)
+				else if ((Level.curLevel.getPlayer().getBounds().x + Level.curLevel.getPlayer().getBounds().width)
 						/ 2 < (this.position.x + this.bw) / 2) {
 					// the player is on the left
 					velocity.x = -2;
@@ -70,6 +71,12 @@ public class Goblin extends Enemy {
 		}
 
 		super.update();
+	}
+
+	@Override
+	public void attack() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

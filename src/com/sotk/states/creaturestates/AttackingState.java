@@ -12,6 +12,7 @@ public class AttackingState extends CreatureState {
 	@Override
 	public CreatureState update(Creature creature) {
 		if(creature.attack.isFinished()) {
+			creature.attack();
 			creature.attack.reset();
 			return new IdleState();
 		}

@@ -19,7 +19,7 @@ public class IdleState extends CreatureState {
 		}
 		// creature take hit handled in creature class
 
-		if (Level.curLevel.getPlayer().isAlive() && Level.curLevel.getPlayer().getDist(creature.getBounds()) <= 50) {
+		if (Level.curLevel.getPlayer().isAlive() && Level.curLevel.getPlayer().getDist(creature.getBounds()) <= creature.attackRange) {
 			// attacking the player if they're close enough
 			return new AttackingState();
 		}

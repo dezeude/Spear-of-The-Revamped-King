@@ -294,10 +294,6 @@ public class Level {
 		return map;
 	}
 
-	public Rectangle getPlayerBounds() {
-		return p.getBounds();
-	}
-
 	// returns true if the entity was damaged/attacked.
 	public boolean damageEnemies(Rectangle bounds, int damage) {
 		for (Creature e : enemies) {
@@ -310,12 +306,11 @@ public class Level {
 
 	public boolean enemyAttack(Rectangle bounds, int damage) {
 		if (bounds.intersects(p.getBounds())) {
-			p.damage(damage);
 			Vector2i boundsCenter = new Vector2i(bounds.x + bounds.width / 2, bounds.y + bounds.height);
 			Vector2i dest = new Vector2i();
 			p.centerPos().sub(boundsCenter, dest);
 			p.addForce(dest);
-			return true;
+			return p.damage(damage);
 		}
 		return false;
 

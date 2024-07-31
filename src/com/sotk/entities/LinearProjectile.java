@@ -13,29 +13,46 @@ import com.sotk.managers.Camera;
 public abstract class LinearProjectile extends Projectile {
 	protected Animation anim;
 	protected int xOff, yOff;
+	protected Vector2f direction;
+	
+	protected int radius;
+	protected int lifeTime;
 
-	public LinearProjectile(int x, int y, Vector2f direction, BufferedImage sheet) {
-		super(x, y, direction.x, direction.y, sheet);
+	public LinearProjectile(int x, int y, Vector2f direction, int speed) {
+		super(x, y, direction.x, direction.y, null);
+		this.direction = new Vector2f(direction.x, direction.y);
+		this.direction.normalize(speed);
 	}
 
 	@Override
 	public void update() {
-		assert anim != null;
-		position.add(7, 0);
-		Rectangle bounds = new Rectangle(position.x, position.y, anim.getCurFrame().getWidth(),
-				anim.getCurFrame().getHeight());
-		Level.curLevel.enemyAttack(bounds, 1);
+		position.add((int) Math.round(direction.x), (int) Math.round(direction.y));
+		
+		lifeTime--;
+		if (lifeTime <= 0)
+			anim.unlock();
+		
+		if (anim.getIndex() == 0) {
 
-//		System.out.printf("X:%d, Y:%d\n", position.x, position.y);
+			if (Level.curLevel.enemyAttack(new Rectangle(position.x, position.y, radius, radius), 1)) {
+				anim.unlock();
+				direction.zero();
+			}
+		} else if (anim.isFinished()) {
+			canRemove = true;
+		}
+//the animation is only played when the projectile hits something or despawns.
+		anim.play(); 
 	}
 
 	@Override
 	public void render(Graphics g) {
-		assert anim != null;
 		g.drawImage(anim.getCurFrame(), position.x - xOff - Camera.getXOffset(),
-				position.y - yOff - Camera.getYOffset(), anim.getCurFrame().getWidth()+ 10, anim.getCurFrame().getHeight()+ 10,
-				null);
-		//only play the animation after the projectile has been hit.
+				position.y - yOff - Camera.getYOffset(), anim.getCurFrame().getWidth() + 10,
+				anim.getCurFrame().getHeight() + 10, null);
+//		g.fillRect(position.x - Camera.getXOffset(), position.y - Camera.getYOffset(), 10, 10);
+
+		// only play the animation after the projectile has been hit.
 //anim.play();
 	}
 

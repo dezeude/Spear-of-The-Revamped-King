@@ -65,7 +65,7 @@ public class GamePanel extends JPanel
 		long start = 0;
 		// convert everything to milliseconds. For now...
 		while (running) {
-			// Need a way to convert nanoseconds and milliseconds to
+//			long startTime = System.nanoTime();
 			// My way
 			long deltaTime = System.nanoTime() - start;
 //			System.out.printf("%f\n",deltaTime * 1e-9f);
@@ -88,6 +88,9 @@ public class GamePanel extends JPanel
 //			update(deltaTime / 1_000_000_000f); //deltaTime should be in seconds (float)
 			update();
 			repaint();
+
+//			long endTime = System.nanoTime();
+//			System.out.println(endTime - startTime);
 		}
 
 	}
@@ -150,7 +153,7 @@ public class GamePanel extends JPanel
 //		gOffscreen.fillRect(0, 0, offScreenBuffer.getWidth(), offScreenBuffer.getHeight());
 		gameState.render(gOffscreen);
 		gOffscreen.dispose();
-		g.fillRect(0, 0, bufferWidth, bufferHeight);
+		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(offScreenBuffer, 0, 0, getWidth(), getHeight(), null);
 		g.dispose();
 		// which is better? getGraphics() or paintComponent?

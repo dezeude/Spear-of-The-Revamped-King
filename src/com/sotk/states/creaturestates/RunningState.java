@@ -18,7 +18,7 @@ public class RunningState extends CreatureState {
 			return new IdleState();
 		}
 		
-		if(Level.curLevel.getPlayer().isAlive() && Level.curLevel.getPlayer().getDist(creature.getBounds()) <= 50) {
+		if(Level.curLevel.getPlayer().isAlive() && Level.curLevel.getPlayer().getDist(creature.getBounds()) <= creature.attackRange) {
 			//attacking the player if they're close enough
 			return new AttackingState();
 		}

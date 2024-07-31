@@ -53,6 +53,7 @@ public class Player extends Creature {
 		curAnim = idle;
 		this.state = PlayerState.idle;
 		this.state.enter(this);
+		speed = 5;
 	}
 
 	public void loadAnimations() {
@@ -83,17 +84,12 @@ public class Player extends Creature {
 		velocity.x = 0;
 		if (keyManager.getKey(KeyEvent.VK_A)) {
 			facingRight = false;
-			velocity.x += -5;
-			if (velocity.x < maxSpeed)
-				velocity.x = -maxSpeed;
+			velocity.x -= speed;
 		}
 
 		if (keyManager.getKey(KeyEvent.VK_D)) {
 			facingRight = true;
-			velocity.x += 5;
-			if (velocity.x > maxSpeed)
-				velocity.x = maxSpeed;
-
+			velocity.x += speed;
 		}
 
 		if (keyManager.getKey(KeyEvent.VK_W)) { // if w is being pressed

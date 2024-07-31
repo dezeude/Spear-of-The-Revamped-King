@@ -45,5 +45,13 @@ public abstract class Projectile extends Entity {
 		resultantForce.add(force.div(mass), resultantForce);
 //		System.out.println("Force applied");
 	}
+	
+public static Vector2f projectUontoV(Vector2f u, Vector2f v) {
+		float top = u.dot(v);
+		float bottom = v.dot(v);
+		Vector2f result = new Vector2f();
+		v.mul(top/bottom,result);
+		return result;
+	}
 
 }

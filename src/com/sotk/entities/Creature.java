@@ -46,6 +46,10 @@ public abstract class Creature extends Entity {
 	protected final float knockBack = 5.0f;
 	
 	protected int xOff, yOff;
+	
+	public int attackRange; //range for when to attack the player
+	
+	protected int speed;
 
 	public void processStates() {
 		CreatureState state = this.state.update(this);
@@ -200,11 +204,7 @@ public abstract class Creature extends Entity {
 		this.extras = data;
 	}
 
-	public void attack() {
-		curAnim.reset();
-		state = new AttackingState();
-		state.enter(this);
-	}
+	public abstract void attack() ;
 
 	public Vector2i centerPos() {
 		return new Vector2i(position.x + bw / 2, position.y + bh / 2);
