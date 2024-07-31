@@ -16,15 +16,16 @@ public class DeadState extends CreatureState {
 
 	@Override
 	public CreatureState update(Creature creature) {
+		creature.velocity.zero();
 		deadTime++;
 		if (deadTime > 300) { // 5 seconds
 			// despawn creature after it's been dead for a certain amount of time.
 			creature.canRemove = true;
 		}
-		
-		if(creature.death.isFinished())
+
+		if (creature.death.isFinished())
 			creature.death.lock();
-		
+
 		return null;
 
 	}

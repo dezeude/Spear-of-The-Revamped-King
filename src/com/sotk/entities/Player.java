@@ -199,12 +199,13 @@ public class Player extends Creature {
 	}
 
 	@Override
-	public boolean damage(int dmg) {
+	public boolean damage(int dmg, Vector2f dir) {
 		if (state.equals(PlayerState.dead) || state.equals(PlayerState.invincible))
 			return false;
 		else { // damage the player
 			health -= dmg;
 			curAnim.reset();
+			addForce(dir);
 			state = PlayerState.invincible;
 			state.enter(this);
 			return true;

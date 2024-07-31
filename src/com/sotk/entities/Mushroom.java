@@ -31,6 +31,7 @@ public class Mushroom extends Enemy {
 		loadAnimations();
 		curAnim = idle;
 		this.state = new IdleState();
+		facingRight = false;
 	}
 
 	private void loadAnimations() {
@@ -56,41 +57,35 @@ public class Mushroom extends Enemy {
 				return;
 
 			// then the mushroom is pursuing the player
+			if (!this.state.equals(CreatureState.States.Invincible)) {
+				if (this.state.equals(CreatureState.States.Attacking)) {
+					// if the mushroom is attacking
+					velocity.x = 0;
+				} else if (Level.curLevel.getPlayer().getX() > position.x) {
+					// player is to the right
+					facingRight = true;
+					velocity.x = 2;
+				} else if (Level.curLevel.getPlayer().getX() < position.x) {
+					// player is to the left
+					facingRight = false;
+					velocity.x = -2;
+				}
 
-			if (Level.curLevel.getPlayer().getX() > position.x) {
-				// player is to the right
-				facingRight = true;
-				velocity.x = 2;
-			}			
-			else if (Level.curLevel.getPlayer().getX() < position.x) {				
-				//player is to the left
-				facingRight = false;
-				velocity.x = -2;
 			}
-			
-			if (this.state.equals(CreatureState.States.Attacking)) {
-				// if the mushroom is attacking
-				velocity.x = 0;
-			}
-
 		}
 	}
 
 	@Override
 	public void attack() {
 		// vector from mushroom to player
-		if (Level.curLevel.getPlayer().getX() < position.x)
-			// if the player is on the left
-			facingRight = false;
-		else
-			facingRight = true;
+
+		// if mushroom facing right, dir.x should be positive
 
 		Vector2f dir = new Vector2f();
-		Vector2f pPos = new Vector2f(Level.curLevel.getPlayer().centerPos());
-		pPos.sub(new Vector2f(position), dir);
-		dir.y = 0;
 
-		Level.curLevel.addProjectile(new Fireball(centerPos().x, centerPos().y, dir, 7));
+		dir.x = facingRight ? 1 : -1;
+
+		Level.curLevel.addProjectile(new Fireball(centerPos().x, centerPos().y, dir, 6));
 	}
 
 }

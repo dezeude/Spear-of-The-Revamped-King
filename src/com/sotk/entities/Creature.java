@@ -12,7 +12,6 @@ import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
 import com.sotk.managers.Camera;
 import com.sotk.managers.TileMap;
-import com.sotk.states.creaturestates.AttackingState;
 import com.sotk.states.creaturestates.CreatureState;
 import com.sotk.states.creaturestates.DeadState;
 import com.sotk.states.creaturestates.IdleState;
@@ -44,11 +43,11 @@ public abstract class Creature extends Entity {
 	public Animation attack;
 	protected BufferedImage curFrame;
 	protected final float knockBack = 5.0f;
-	
+
 	protected int xOff, yOff;
-	
-	public int attackRange; //range for when to attack the player
-	
+
+	public int attackRange; // range for when to attack the player
+
 	protected int speed;
 
 	public void processStates() {
@@ -99,13 +98,11 @@ public abstract class Creature extends Entity {
 
 	@Override
 	public int getX() {
-		// TODO Auto-generated method stub
 		return (int) position.x();
 	}
 
 	@Override
 	public int getY() {
-		// TODO Auto-generated method stub
 		return (int) position.y();
 	}
 
@@ -177,12 +174,19 @@ public abstract class Creature extends Entity {
 		return health;
 	}
 
-	public boolean damage(int dmg) {
+	/**
+	 * Applies damage to creature, and a force in the specified direction
+	 *
+	 * @param dmg The damage to be applied.
+	 * @param dir The direction of the force.
+	 */
+	public boolean damage(int dmg, Vector2f dir) {
 		// set the state to invincible state if not already there
 		if (!state.equals(CreatureState.States.Invincible) && !state.equals(CreatureState.States.Dead)) {
 			health -= dmg;
-			System.out.println(health);
+			System.out.printf("DIR: X:%f, Y:%f\n",dir.x,dir.y);
 			curAnim.reset();
+			addForce(dir);
 			state = new InvincibleState();
 			state.enter(this);
 			return true;
@@ -204,7 +208,7 @@ public abstract class Creature extends Entity {
 		this.extras = data;
 	}
 
-	public abstract void attack() ;
+	public abstract void attack();
 
 	public Vector2i centerPos() {
 		return new Vector2i(position.x + bw / 2, position.y + bh / 2);
@@ -213,7 +217,7 @@ public abstract class Creature extends Entity {
 	public boolean isAlive() {
 		return alive;
 	}
-	
+
 	public void doPhysics() {
 		if (bottom)
 			velocity.y = 1;
@@ -232,11 +236,12 @@ public abstract class Creature extends Entity {
 
 		move((int) velocity.x, (int) velocity.y);
 	}
-	
+
 	public void addForce(Vector2f force) {
-		force.normalize(force);
-		force.mul(knockBack, force);
-		this.force.add(force);
+		force.normalize();
+		force.mul(knockBack);
+		
+		this.force.add(force.x, -knockBack);
 		force.zero();
 	}
 

@@ -294,11 +294,17 @@ public class Level {
 		return map;
 	}
 
-	// returns true if the entity was damaged/attacked.
+	/**
+     * returns true if the entity was damaged/attacked.
+     */
 	public boolean damageEnemies(Rectangle bounds, int damage) {
+		// TODO: store the owner of the attack bounds for better directional knockback
 		for (Creature e : enemies) {
 			if (bounds.intersects(e.getBounds())) {
-				return e.damage(damage);
+				Vector2i dir = new Vector2i();
+				e.centerPos().sub((int)Math.round(bounds.getCenterX()),(int)Math.round(bounds.getCenterY()), dir);
+				
+				return e.damage(damage, new Vector2f(dir.x,dir.y));
 			}
 		}
 		return false;
@@ -309,8 +315,7 @@ public class Level {
 			Vector2i boundsCenter = new Vector2i(bounds.x + bounds.width / 2, bounds.y + bounds.height);
 			Vector2i dest = new Vector2i();
 			p.centerPos().sub(boundsCenter, dest);
-			p.addForce(dest);
-			return p.damage(damage);
+			return p.damage(damage, new Vector2f(dest.x,dest.y));
 		}
 		return false;
 
