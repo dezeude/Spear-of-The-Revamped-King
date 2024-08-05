@@ -16,9 +16,9 @@ This was a really fun project and I hope I get more motivation to eventually fin
 
 ## Controls
 
-WASD to move
-Left-Click for basic attack
-Right-click to throw spear
+WASD to move  
+Left-Click for basic attack  
+Right-click to throw spear  
 ESC to close the window
 
 ## Skills
