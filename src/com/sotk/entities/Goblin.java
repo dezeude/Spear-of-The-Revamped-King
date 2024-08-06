@@ -21,7 +21,8 @@ public class Goblin extends Enemy {
 	static BufferedImage sheet = null;
 
 	public Goblin(int x, int y) {
-		xOff = 64; yOff = 64;
+		xOff = 64;
+		yOff = 64;
 		position.x = x;
 		position.y = y;
 		bw = 22;
@@ -32,6 +33,7 @@ public class Goblin extends Enemy {
 			sheet = AssetsManager.loadImage("/animations/mobs/enemies/goblin/goblinSprite.png");
 		loadAnimations();
 		curAnim = idle;
+		pursuingRange = 250;
 	}
 
 	private void loadAnimations() {
@@ -42,11 +44,11 @@ public class Goblin extends Enemy {
 		attack = new Animation(sheet, 2, 150, 150, 8, 0.14f);
 		attack.setAttackFrame(6, 80, 71, 40, 30);
 	}
-	
+
 	@Override
 	public void update() {
-		if (alive) {
-			if (Level.curLevel.getPlayer().alive && Level.curLevel.getPlayer().getDist(getBounds()) <= 250) {
+		if (alive && Level.curLevel.getPlayer().alive) {
+			if (Level.curLevel.getPlayer().getDist(getBounds()) <= pursuingRange) {
 				// if the player is alive
 				// move towards the player
 				if (Level.curLevel.getPlayer().getDist(getBounds()) <= 20) {
@@ -69,6 +71,8 @@ public class Goblin extends Enemy {
 				velocity.x = 0;
 
 		}
+		else
+			velocity.x = 0;
 
 		super.update();
 	}
@@ -76,7 +80,7 @@ public class Goblin extends Enemy {
 	@Override
 	public void attack() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -21,7 +21,7 @@ public abstract class LinearProjectile extends Projectile {
 	protected Creature owner;
 
 	public LinearProjectile(int x, int y, Vector2f direction, int speed, Creature owner) {
-		super(x, y, direction.x, direction.y, null);
+		super(x, y, direction.x, direction.y, null, owner);
 		this.direction = new Vector2f(direction.x, direction.y);
 		this.direction.normalize(speed);
 		this.owner = owner;

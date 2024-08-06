@@ -20,18 +20,17 @@ public class Spear extends Projectile {
 	private int stuckTimer = GamePanel.targetFPS * 3; // three seconds
 	private final int stuckTimerMax = stuckTimer;
 
-	public Spear(int x, int y, float vx, float vy) {
-		super(x, y, vx, vy, AssetsManager.loadImage("/animations/player/Spear.png"));
+	public Spear(int x, int y, float vx, float vy, Creature owner) {
+		super(x, y, vx, vy, AssetsManager.loadImage("/animations/player/Spear.png"), owner);
+	}
+
+	public Spear(int x, int y, Vector2f velocity, Creature owner) {
+		this(x, y, velocity.x, velocity.y, owner);
 
 	}
 
-	public Spear(int x, int y, Vector2f velocity) {
-		super(x, y, velocity, AssetsManager.loadImage("/animations/player/Spear.png"));
-
-	}
-
-	public Spear(Vector2i position, Vector2f velocity) {
-		super(position, velocity, AssetsManager.loadImage("/animations/player/Spear.png"));
+	public Spear(Vector2i position, Vector2f velocity, Creature owner) {
+		this(position.x, position.y, velocity.x, velocity.y, owner);
 	}
 
 	@Override
@@ -53,7 +52,7 @@ public class Spear extends Projectile {
 		temp.mul(20, temp);
 		Rectangle bounds = new Rectangle(position.x + (int) temp.x - 5, position.y + (int) temp.y - 5, 10, 10);
 
-		if (Level.curLevel.damageEnemies(bounds, 1))
+		if (Level.curLevel.damageEnemies(bounds, 1, this.owner))
 			// spear is removed/deleted if enemy is hit
 			canRemove = true;
 
@@ -110,8 +109,8 @@ public class Spear extends Projectile {
 		double y = leftSide - rightSide;
 		return y;
 	}
-	
-	//from equation
+
+	// from equation
 	public double TrajecRange() {
 		double angle = resultantForce.angle(new Vector2f(1, 0));
 		return (Math.pow(resultantForce.length(), 2) * Math.sin(2 * angle)) / gravity.y;

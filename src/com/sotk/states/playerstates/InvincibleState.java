@@ -14,6 +14,7 @@ public class InvincibleState extends PlayerState {
 	@Override
 	public void update(Player player) {
 		if (player.takeHit.getIndex() == player.takeHit.length() - 1) {
+			player.velocity.x= 0; 
 			player.setState(PlayerState.idle);
 		}
 

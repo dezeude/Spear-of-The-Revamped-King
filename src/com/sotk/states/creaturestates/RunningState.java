@@ -13,7 +13,7 @@ public class RunningState extends CreatureState {
 
 	@Override
 	public CreatureState update(Creature creature) {
-		if (creature.bottom && Math.abs(creature.velocity.x) < 1.0f) {
+		if (creature.bottom && Math.abs(creature.velocity.x) < 0.1f) {
 			// set state to idle
 			return new IdleState();
 		}

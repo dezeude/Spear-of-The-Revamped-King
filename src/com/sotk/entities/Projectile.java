@@ -14,20 +14,15 @@ public abstract class Projectile extends Entity {
 	public Vector2f resultantForce;
 
 	public static Vector2f gravity = new Vector2f(0, .981f / 2);
+	
+	protected Creature owner;
 
-	public Projectile(int x, int y, float vx, float vy, BufferedImage sheet) {
+	public Projectile(int x, int y, float vx, float vy, BufferedImage sheet, Creature owner) {
 		position.set(x, y);
 		velocity = new Vector2f();
 		resultantForce = new Vector2f(vx, vy);
 		this.sprite = sheet;
-	}
-
-	public Projectile(int x, int y, Vector2f direction, BufferedImage sheet) {
-		this(x, y, direction.x, direction.y, sheet);
-	}
-
-	public Projectile(Vector2i position, Vector2f direction, BufferedImage sheet) {
-		this(position.x, position.y, direction.x, direction.y, sheet);
+		this.owner=owner;
 	}
 
 	public void update() {
@@ -53,5 +48,7 @@ public static Vector2f projectUontoV(Vector2f u, Vector2f v) {
 		v.mul(top/bottom,result);
 		return result;
 	}
+
+public Creature getOwner() {return owner;}
 
 }

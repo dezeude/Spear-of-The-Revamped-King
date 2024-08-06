@@ -25,13 +25,13 @@ public class Mushroom extends Enemy {
 		bw = 22;
 		bh = 36;
 		health = 3;
-		attackRange = bw * 15;
+		attackRange = bw * 5;
 		if (sheet == null)
 			sheet = AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Idle.png");
 		loadAnimations();
 		curAnim = idle;
-		this.state = new IdleState();
 		facingRight = false;
+		pursuingRange = 330;
 	}
 
 	private void loadAnimations() {
@@ -50,7 +50,7 @@ public class Mushroom extends Enemy {
 	public void update() {
 		super.update();
 		if (alive) {
-			if (Level.curLevel.getPlayer().getDist(getBounds()) <= bw * 50)
+			if (Level.curLevel.getPlayer().getDist(getBounds()) <= pursuingRange)
 				pursuing = true;
 
 			if (!pursuing)
@@ -77,13 +77,9 @@ public class Mushroom extends Enemy {
 
 	@Override
 	public void attack() {
-		// vector from mushroom to player
-
 		// if mushroom facing right, dir.x should be positive
 
-		Vector2f dir = new Vector2f();
-
-		dir.x = facingRight ? 1 : -1;
+		Vector2f dir = new Vector2f(facingRight ? 1 : -1, 0);
 
 		Level.curLevel.addProjectile(new Fireball(centerPos().x, centerPos().y, dir, 6, this));
 	}

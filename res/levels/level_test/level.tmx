@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="81" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="10">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="81" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="11">
  <editorsettings>
   <chunksize width="50" height="50"/>
  </editorsettings>
@@ -8,7 +8,7 @@
  <tileset firstgid="1281" source="../Tilesets/Collisions.tsx"/>
  <tileset firstgid="1282" source="../Tilesets/Magic-Cliffs-Environment by ansimuz.tsx"/>
  <tileset firstgid="1572" source="../../../../../eclipse-workspace/Spear of The King/res/worlds/Tilesets/Collisions.tsx"/>
- <layer id="3" name="TopLayer" width="81" height="20" visible="0">
+ <layer id="3" name="TopLayer" width="81" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -32,7 +32,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="Collision" width="81" height="20" visible="0" opacity="0.25">
+ <layer id="4" name="Collision" width="81" height="20" opacity="0.25">
   <data encoding="csv">
 1572,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1572,
 1572,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1572,
@@ -56,14 +56,14 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="7" name="Doors" visible="0">
+ <objectgroup id="7" name="Doors">
   <object id="7" name="Exit" x="35.9792" y="235.864" width="59.9653" height="81.9526">
    <properties>
     <property name="Level To?" value="level_1"/>
    </properties>
   </object>
  </objectgroup>
- <layer id="2" name="BackLayer" width="81" height="20" visible="0">
+ <layer id="2" name="BackLayer" width="81" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -102,12 +102,12 @@ ________________________________
 </property>
    </properties>
   </object>
-  <object id="6" name="Player" x="256.513" y="269.924" width="20" height="40">
+  <object id="6" name="Player" x="1421.84" y="173.98" width="20" height="40">
    <properties>
     <property name="extras" value=""/>
    </properties>
   </object>
-  <object id="9" name="Mushroom" x="477.724" y="239.861" width="45.9734" height="65.9618">
+  <object id="9" name="Mushroom" x="1762.98" y="241.86" width="45.9734" height="65.9618">
    <properties>
     <property name="Extras" value="lol"/>
    </properties>

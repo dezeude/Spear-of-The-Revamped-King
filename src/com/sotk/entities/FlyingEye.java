@@ -33,4 +33,10 @@ public class FlyingEye extends Enemy{
 		
 	}
 
+	@Override
+	public void attack() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

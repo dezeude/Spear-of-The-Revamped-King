@@ -204,7 +204,7 @@ public class Level {
 				return;
 			}
 
-			Spear tempSpear = new Spear(playerPos, spearVelocity);
+			Spear tempSpear = new Spear(playerPos, spearVelocity, p);
 
 			QuadCurve2D q = new QuadCurve2D.Float();
 
@@ -312,10 +312,10 @@ public class Level {
 
 	public boolean enemyAttack(Rectangle bounds, int damage, Creature owner) {
 		if (bounds.intersects(p.getBounds())) {
-			Vector2i boundsCenter = new Vector2i(owner.centerPos().x(), owner.centerPos().y());
-			Vector2i dest = new Vector2i();
-			p.centerPos().sub(boundsCenter, dest);
-			return p.damage(damage, new Vector2f(dest.x,dest.y));
+			Vector2i dir = new Vector2i();
+			p.centerPos().sub(owner.centerPos().x,owner.centerPos().y(), dir);
+			
+			return p.damage(damage, new Vector2f(dir.x,dir.y));
 		}
 		return false;
 

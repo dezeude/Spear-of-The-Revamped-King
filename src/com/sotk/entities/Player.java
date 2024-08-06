@@ -35,7 +35,7 @@ public class Player extends Creature {
 	public Player(int x, int y, Level level) {
 		// bounds x and y offsets, with the width and height
 		xOff = 64;
-		yOff = 57; 
+		yOff = 57;
 		// make the width and height of the gamePanel static
 		position.set(x, y);
 		bw = 20;
@@ -44,7 +44,6 @@ public class Player extends Creature {
 		keyManager = KeyManager.getInstance();
 		Camera.setDivisor(10);
 		this.level = level;
-//		animationManager = new AnimationManager();
 		top = false;
 		bottom = false;
 		left = false;
@@ -81,42 +80,36 @@ public class Player extends Creature {
 	}
 
 	public void processInput() {
-		velocity.x = 0;
 		if (keyManager.getKey(KeyEvent.VK_A)) {
 			facingRight = false;
-			velocity.x -= speed;
+			velocity.x = -speed;
+			if(keyManager.getKey(KeyEvent.VK_D))velocity.x=0;
 		}
 
 		if (keyManager.getKey(KeyEvent.VK_D)) {
 			facingRight = true;
-			velocity.x += speed;
+			velocity.x = speed;
+			if(keyManager.getKey(KeyEvent.VK_A))velocity.x=0;
 		}
+		
+		if(!keyManager.getKey(KeyEvent.VK_A)&&!keyManager.getKey(KeyEvent.VK_D))
+			velocity.x=0;
 
 		if (keyManager.getKey(KeyEvent.VK_W)) { // if w is being pressed
 //			System.out.println(System.currentTimeMillis());
 			if (state != PlayerState.invincible) {
 				if (bottom) { // if there is a tile under the player
+					
 					timeSinceJumped = 0;
-					velocity.y = -9;
+					applyForce(0,-12);
 					bottom = false;
 					isJumping = true;
-				} else { // if the player is in the air
-					timeSinceJumped++;
-					if (timeSinceJumped <= 20 && isJumping) {
-						velocity.y -= 0.3;
-					} else {
-						timeSinceJumped = 0;
-						isJumping = false;
-					}
+
 
 				}
 			}
 
-		}
-		if (!keyManager.getKey(KeyEvent.VK_W) && !bottom)
-// if the w isn't held and the player is in the air.
-			isJumping = false;
-// the player isn't jumping anymore			
+		}	
 
 	}
 
@@ -124,12 +117,14 @@ public class Player extends Creature {
 	public void update() {
 		this.state.update(this);
 
-		if (alive) {
+		if (alive && !this.state.equals(PlayerState.invincible)) {
 			processInput();
+
 			Camera.smoothTo(position.x + bw / 2, position.y + bh / 2);// center player in the middle of the screen.
 			// TODO: Fix SmoothTo
 		}
 		doPhysics();
+		
 
 		if (facingRight) {
 			curFrame = curAnim.getCurFrame();
@@ -178,9 +173,11 @@ public class Player extends Creature {
 	}
 
 	public void setThrowingState(int mouseX, int mouseY) {
-		setState(PlayerState.throwing);
-		this.throwing.unlock();
-		PlayerState.throwing.setMousePosition(mouseX, mouseY);
+		if (!this.state.equals(PlayerState.throwing)) {
+			setState(PlayerState.throwing);
+			this.throwing.unlock();
+			PlayerState.throwing.setMousePosition(mouseX, mouseY);
+		}
 	}
 
 	public void throwSpear(int mouseX, int mouseY) { // window points
@@ -190,26 +187,28 @@ public class Player extends Creature {
 		Vector2f dir = new Vector2f((mouseX + Camera.getXOffset()) - (position.x + bw / 2),
 				(mouseY + Camera.getYOffset()) - (position.y + bh / 2)).normalize(maxSpeed * 3);
 		Vector2i newPos = centerPos();
-		level.addProjectile(new Spear(newPos, dir));
+		level.addProjectile(new Spear(newPos, dir, this));
 	}
 
 	@Override
 	public void attack() {
-		setState(PlayerState.attacking);
+		if (!this.state.equals(PlayerState.attacking))
+			setState(PlayerState.attacking);
 	}
 
 	@Override
 	public boolean damage(int dmg, Vector2f dir) {
-		if (state.equals(PlayerState.dead) || state.equals(PlayerState.invincible))
-			return false;
-		else { // damage the player
+		if (!state.equals(PlayerState.dead) && !state.equals(PlayerState.invincible)) {
+			// damage the player
 			health -= dmg;
+//			System.out.printf("DIR: X:%f, Y:%f\n", dir.x, dir.y);
 			curAnim.reset();
-			addForce(dir);
+			applyKnockback(dir);
 			state = PlayerState.invincible;
 			state.enter(this);
 			return true;
 		}
+		return false;
 	}
 
 	@Override

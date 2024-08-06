@@ -9,6 +9,7 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 import com.sotk.levels.Level;
+import com.sotk.main.GamePanel;
 import com.sotk.managers.Animation;
 import com.sotk.managers.Camera;
 import com.sotk.managers.TileMap;
@@ -30,7 +31,7 @@ public abstract class Creature extends Entity {
 	protected Vector2f force = new Vector2f(); // resultant force
 	protected float mass = 1.0f;// default kg
 
-	public static final Vector2f gravity = new Vector2f(0, 9.81f);
+	public static final Vector2f gravity = new Vector2f(0, 0.45f);
 
 	protected CreatureState state = new IdleState();
 
@@ -50,11 +51,17 @@ public abstract class Creature extends Entity {
 
 	protected int speed;
 
+	public int pursuingRange; // the range at which the enemy starts to pursue the player
+
 	public void processStates() {
 		CreatureState state = this.state.update(this);
 		// null state means our state didn't change
 		if (state != null) {
 			// if we're entering a new state
+			
+			if(this.state.equals(CreatureState.States.Invincible))
+				//if we're leaving the invincible state
+				velocity.x = 0;
 			curAnim.reset();
 			this.state = state;
 			this.state.enter(this);
@@ -92,6 +99,7 @@ public abstract class Creature extends Entity {
 
 	@Override
 	public void render(Graphics g) {
+//		if(curFrame !=null)
 		g.drawImage(curFrame, position.x - xOff - Camera.getXOffset(), position.y - yOff - Camera.getYOffset(),
 				curFrame.getWidth(), curFrame.getHeight(), null);
 	}
@@ -184,9 +192,9 @@ public abstract class Creature extends Entity {
 		// set the state to invincible state if not already there
 		if (!state.equals(CreatureState.States.Invincible) && !state.equals(CreatureState.States.Dead)) {
 			health -= dmg;
-			System.out.printf("DIR: X:%f, Y:%f\n",dir.x,dir.y);
+//			System.out.printf("DIR: X:%f, Y:%f\n", dir.x, dir.y);
 			curAnim.reset();
-			addForce(dir);
+			applyKnockback(dir);
 			state = new InvincibleState();
 			state.enter(this);
 			return true;
@@ -219,10 +227,16 @@ public abstract class Creature extends Entity {
 	}
 
 	public void doPhysics() {
-		if (bottom)
+
+		if (this.getClass().equals(Player.class)) {
+			int ab = 2;
+		}
+		// gravity & ground friction
+		if (bottom) {
+//			this.force.add(new Vector2f(velocity.x * -1* 0.1f,0));
 			velocity.y = 1;
-		else
-			velocity.y += 0.45f;
+		} else
+			applyForce(gravity);
 
 		top = false;
 		bottom = false;
@@ -232,20 +246,26 @@ public abstract class Creature extends Entity {
 		force.div(mass);
 		velocity.add(force);
 //		velocity.mul(dt);	
-		force.zero();
+		force = new Vector2f();
 
 		move((int) velocity.x, (int) velocity.y);
 	}
 
-	public void addForce(Vector2f force) {
+	public void applyKnockback(Vector2f force) {
+		velocity.zero();
 		force.normalize();
 		force.mul(knockBack);
-		
+
 		this.force.add(force.x, -knockBack);
 		force.zero();
+		if (!this.getClass().equals(Player.class))
+			System.out.println(this.force);
 	}
 
-	public void addForce(Vector2i force) {
-		addForce(new Vector2f((float) force.x, (float) force.y));
+	public void applyForce(Vector2f force) {
+		this.force.add(force);
+	}
+	public void applyForce(float x, float y) {
+		applyForce(new Vector2f(x,y));
 	}
 }
