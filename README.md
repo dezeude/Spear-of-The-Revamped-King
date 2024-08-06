@@ -12,7 +12,14 @@ This was a really fun project and I hope I get more motivation to eventually fin
 
 ## The Game
 
-**Spear of The King** is a 2D platformer game that follows the life of a young warrior (unnamed lol) with amnesia, who is tasked with saving the kingdom from monsters. At least that was the original plan, but there's no real gameplay. You can move with WASD, attack with left click, and interact with spacebar. 
+**Spear of The King** is a 2D platformer game that follows the life of a young warrior (unnamed lol) with amnesia, who is tasked with saving the kingdom from monsters. At least that was the original plan, but there's no real gameplay.
+
+## Controls
+
+WASD to move  
+Left-Click for basic attack  
+Right-click to throw spear  
+ESC to close the window
 
 ## Skills
 
