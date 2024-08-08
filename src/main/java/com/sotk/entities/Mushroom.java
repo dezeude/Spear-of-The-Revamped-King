@@ -2,7 +2,6 @@ package com.sotk.entities;
 
 import java.awt.image.BufferedImage;
 
-import javax.imageio.plugins.tiff.GeoTIFFTagSet;
 
 import org.joml.Vector2f;
 
