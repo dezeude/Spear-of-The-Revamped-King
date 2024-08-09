@@ -7,9 +7,7 @@ I have learned a lot since first starting the project in May (or April) 2022, an
 
 # Spear-of-The-King
 
-This is a small project that I started a while ago, but haven't finished yet because of procrastination and motivational issues. I started this project to understand how games were made from scratch using code without a game engine and with minimal libraries. This project doesn't have any external libraries apart from the base JRE libraries from Java 11 and [JOML](https://github.com/JOML-CI/JOML). You can run the "SoTK.jar" file in the root directory to see where the game is at right now. (There's not much lol)
-This was a really fun project and I hope I get more motivation to eventually finish it, lol.
-
+This is a small project that I started a while ago, but haven't finished yet because of procrastination and motivational issues. I started this project to understand how games were made from scratch using code without a game engine and with minimal libraries. This project doesn't have any external libraries apart from the base JRE libraries from Java 11 and [JOML](https://github.com/JOML-CI/JOML).
 ## The Game
 
 **Spear of The King** is a 2D platformer game that follows the life of a young warrior (unnamed lol) with amnesia, who is tasked with saving the kingdom from monsters. At least that was the original plan, but there's no real gameplay.
