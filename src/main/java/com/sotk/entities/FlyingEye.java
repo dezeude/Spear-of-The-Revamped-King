@@ -15,7 +15,7 @@ public class FlyingEye extends Enemy{
 		bh = 36;
 		health = 3;
 		if (sheet == null)
-			sheet = AssetsManager.loadImage("/animations/mobs/enemies/flying_eye/attack.png");
+			sheet = AssetsManager.loadImage("/sprites/mobs/enemies/flying_eye/attack.png");
 	}
 
 	@Override

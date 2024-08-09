@@ -1,17 +1,10 @@
 package com.sotk.entities;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
 import com.sotk.managers.AssetsManager;
-import com.sotk.managers.Bound;
-import com.sotk.managers.Camera;
-import com.sotk.managers.Collisions;
-import com.sotk.states.creaturestates.AttackingState;
 
 public class Goblin extends Enemy {
 	// position offsets
@@ -30,7 +23,7 @@ public class Goblin extends Enemy {
 		health = 3;
 		attackRange = bw * 3;
 		if (sheet == null)
-			sheet = AssetsManager.loadImage("/animations/mobs/enemies/goblin/goblinSprite.png");
+			sheet = AssetsManager.loadImage("/sprites/mobs/enemies/goblin/goblinSprite.png");
 		loadAnimations();
 		curAnim = idle;
 		pursuingRange = 250;

@@ -1,17 +1,15 @@
 package com.sotk.entities;
 
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 
-import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
 import com.sotk.managers.AssetsManager;
 
 public class Fireball extends LinearProjectile {
-	BufferedImage fireSprite = AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Projectile.png");
+	BufferedImage fireSprite = AssetsManager.loadImage("/sprites/mobs/enemies/mushroom/Projectile.png");
 
 	public Fireball(int x, int y, Vector2f direction, int speed, Creature owner) {
 		super(x, y, direction, speed, owner);
