@@ -21,7 +21,7 @@ public class Spear extends Projectile {
 	private final int stuckTimerMax = stuckTimer;
 
 	public Spear(int x, int y, float vx, float vy, Creature owner) {
-		super(x, y, vx, vy, AssetsManager.loadImage("/animations/player/Spear.png"), owner);
+		super(x, y, vx, vy, AssetsManager.loadImage("/sprites/player/Spear.png"), owner);
 	}
 
 	public Spear(int x, int y, Vector2f velocity, Creature owner) {

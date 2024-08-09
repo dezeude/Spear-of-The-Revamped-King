@@ -1,10 +1,8 @@
 package com.sotk.entities;
 
-import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -57,26 +55,26 @@ public class Player extends Creature {
 
 	public void loadAnimations() {
 		// load the idle animation
-		idle = new Animation("/animations/player/Idle.png", 8, 0.1f);
+		idle = new Animation("/sprites/player/Idle.png", 8, 0.1f);
 
 		// load the running animation
-		run = new Animation("/animations/player/Run.png", 8, 0.2f);
+		run = new Animation("/sprites/player/Run.png", 8, 0.2f);
 
 		// load the attack1 animation
 //		attack1 = new Animation("/animations/player/Attack1.png", 5, 0.3f);
 
 		// load the attack2 animation
-		attack = new Animation("/animations/player/Attack2.png", 5, 0.4f);
+		attack = new Animation("/sprites/player/Attack2.png", 5, 0.4f);
 		attack.setAttackFrame(3, 85, 37, 40, 60);
 
-		jump = new Animation("/animations/player/Jump.png", 2, 0.2f);
+		jump = new Animation("/sprites/player/Jump.png", 2, 0.2f);
 
-		fall = new Animation("/animations/player/Fall.png", 2, 0.2f);
+		fall = new Animation("/sprites/player/Fall.png", 2, 0.2f);
 
-		takeHit = new Animation("/animations/player/Take hit.png", 3, 0.1f);
-		death = new Animation("/animations/player/Death.png", 8, 0.1f);
+		takeHit = new Animation("/sprites/player/Take hit.png", 3, 0.1f);
+		death = new Animation("/sprites/player/Death.png", 8, 0.1f);
 
-		throwing = new Animation("/animations/player/Attack3.png", 7, 0.2f);
+		throwing = new Animation("/sprites/player/Attack3.png", 7, 0.2f);
 	}
 
 	public void processInput() {

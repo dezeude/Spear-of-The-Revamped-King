@@ -9,7 +9,6 @@ import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
 import com.sotk.managers.AssetsManager;
 import com.sotk.states.creaturestates.CreatureState;
-import com.sotk.states.creaturestates.IdleState;
 
 public class Mushroom extends Enemy {
 	static BufferedImage sheet = null;
@@ -26,7 +25,7 @@ public class Mushroom extends Enemy {
 		health = 3;
 		attackRange = bw * 5;
 		if (sheet == null)
-			sheet = AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Idle.png");
+			sheet = AssetsManager.loadImage("/sprites/mobs/enemies/mushroom/Idle.png");
 		loadAnimations();
 		curAnim = idle;
 		facingRight = false;
@@ -35,12 +34,12 @@ public class Mushroom extends Enemy {
 
 	private void loadAnimations() {
 		idle = new Animation(sheet, 0, 150, 150, 4, 0.1f);
-		run = new Animation(AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Run.png"), 0, 150, 150, 8, 0.2f);
-		attack = new Animation(AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Attack.png"), 0, 150, 150, 8,
+		run = new Animation(AssetsManager.loadImage("/sprites/mobs/enemies/mushroom/Run.png"), 0, 150, 150, 8, 0.2f);
+		attack = new Animation(AssetsManager.loadImage("/sprites/mobs/enemies/mushroom/Attack.png"), 0, 150, 150, 8,
 				0.15f);
-		takeHit = new Animation(AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Take_Hit.png"), 0, 150, 150,
+		takeHit = new Animation(AssetsManager.loadImage("/sprites/mobs/enemies/mushroom/Take_Hit.png"), 0, 150, 150,
 				4, 0.15f);
-		death = new Animation(AssetsManager.loadImage("/animations/mobs/enemies/mushroom/Death.png"), 0, 150, 150, 4,
+		death = new Animation(AssetsManager.loadImage("/sprites/mobs/enemies/mushroom/Death.png"), 0, 150, 150, 4,
 				0.15f);
 
 	}

@@ -1,13 +1,10 @@
 package com.sotk.entities;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.sotk.levels.Level;
 import com.sotk.managers.Animation;
 import com.sotk.managers.AssetsManager;
-import com.sotk.managers.Camera;
 
 public class King extends NPC{
 	//sprite sheet
@@ -42,7 +39,7 @@ public class King extends NPC{
 	
 	private void loadAnimations() {
 		idle = new Animation(
-				AssetsManager.loadImage("/animations/mobs/NPCs/King/Idle.png"),
+				AssetsManager.loadImage("/sprites/mobs/NPCs/King/Idle.png"),
 				0, 160, 111, 8, 0.1f);
 	}
 	
