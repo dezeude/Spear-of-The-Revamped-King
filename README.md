@@ -35,15 +35,18 @@ I am a primarily self-taught programmer, and I learned to use Java and Eclipse t
 None of the art is made by me! I used many different assets from different people on itch.io
 Below are the assets I used with the authors's names.
 
-Medieval King Pack by LuizMelo
-Assets\Monster_Creatures_Fantasy by LuizMelo
-Mushroom_Grove by Anokolisa
-Pixel Art Icon Pack by Cainos
-Pixel Art Top Down - Basic by Cainos
-Village Props by Cainos
-Free Pixel Art Forest by edermunizz
-Free Pixelart Platformer Tileset by Foxly
-Huntress by LuizMelo
-Legacy-Fantasy-VL.1 - High Forest by Anokolisa
-Magic-Cliffs-Environment by ansimuz
-Medieval King Pack 2 by LuizMelo
+- Medieval King Pack by LuizMelo
+- Assets\Monster_Creatures_Fantasy by LuizMelo
+- Mushroom_Grove by Anokolisa
+- Pixel Art Icon Pack by Cainos
+- Pixel Art Top Down - Basic by Cainos
+- Village Props by Cainos
+- Free Pixel Art Forest by edermunizz
+- Free Pixelart Platformer Tileset by Foxly
+- Huntress by LuizMelo
+- Legacy-Fantasy-VL.1 - High Forest by Anokolisa
+- Magic-Cliffs-Environment by ansimuz
+- Medieval King Pack 2 by LuizMelo
+
+## Tiled
+SOTK Revamped uses a tool called [Tiled](https://www.mapeditor.org/) to create the levels and organize them in a way that can be easily be inputted to the game.
