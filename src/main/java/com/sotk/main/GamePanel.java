@@ -24,7 +24,7 @@ import com.sotk.states.State;
 public class GamePanel extends JPanel
 		implements Runnable, KeyListener, MouseListener, FocusListener, MouseMotionListener {
 	public final int bufferWidth = TileMap.TILELENGTH * 25;
-	public final int bufferHeight = TileMap.TILELENGTH * 16;
+	public final int bufferHeight = TileMap.TILELENGTH * 18;
 	private Thread thread;
 	private boolean running;
 	private State gameState;

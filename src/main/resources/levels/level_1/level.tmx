@@ -7,28 +7,28 @@
  <tileset firstgid="257" source="../Tilesets/Props.tsx"/>
  <tileset firstgid="1281" source="../Tilesets/Collisions.tsx"/>
  <tileset firstgid="1282" source="../Tilesets/Magic-Cliffs-Environment by ansimuz.tsx"/>
- <imagelayer id="19" name="Background8" locked="1" offsetx="0" offsety="-632.33" parallaxx="0.1" parallaxy="0" repeatx="1">
+ <imagelayer id="19" name="Background8" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.1" parallaxy="0">
   <image source="layers/Layer8.png" width="928" height="793"/>
  </imagelayer>
- <imagelayer id="18" name="Background7" locked="1" offsetx="0" offsety="-632.33" parallaxx="0.2" parallaxy="0" repeatx="1">
+ <imagelayer id="18" name="Background7" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.2" parallaxy="0">
   <image source="layers/Layer7.png" width="928" height="793"/>
  </imagelayer>
- <imagelayer id="17" name="Background6" locked="1" offsetx="0" offsety="-632.33" parallaxx="0.3" parallaxy="0" repeatx="1">
+ <imagelayer id="17" name="Background6" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.3" parallaxy="0">
   <image source="layers/Layer6.png" width="928" height="793"/>
  </imagelayer>
- <imagelayer id="16" name="Background5" locked="1" offsetx="0" offsety="-632.33" parallaxx="0.3" parallaxy="0" repeatx="1">
+ <imagelayer id="16" name="Background5" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.3" parallaxy="0">
   <image source="layers/Layer5.png" width="928" height="793"/>
  </imagelayer>
- <imagelayer id="15" name="Background4" locked="1" offsetx="0" offsety="-632.33" parallaxx="0.4" parallaxy="0" repeatx="1">
+ <imagelayer id="15" name="Background4" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.4" parallaxy="0">
   <image source="layers/Layer4.png" width="928" height="793"/>
  </imagelayer>
- <imagelayer id="14" name="Background3" locked="1" offsetx="0" offsety="-632.33" parallaxx="0.6" parallaxy="0" repeatx="1">
+ <imagelayer id="14" name="Background3" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.6" parallaxy="0">
   <image source="layers/Layer3.png" width="928" height="793"/>
  </imagelayer>
- <imagelayer id="13" name="Background2" locked="1" offsetx="0" offsety="-632.333" parallaxx="0.8" parallaxy="0" repeatx="1">
+ <imagelayer id="13" name="Background2" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.8" parallaxy="0">
   <image source="layers/Layer2.png" width="928" height="793"/>
  </imagelayer>
- <imagelayer id="12" name="Background1" offsetx="0" offsety="-632.333" parallaxx="1.1" parallaxy="0" repeatx="1">
+ <imagelayer id="12" name="Background1" locked="1" offsetx="-56" offsety="-277.9" parallaxx="1.1" parallaxy="0">
   <image source="layers/Layer1.png" width="928" height="793"/>
  </imagelayer>
  <layer id="2" name="BackLayer" width="81" height="18" offsetx="1" offsety="1">
