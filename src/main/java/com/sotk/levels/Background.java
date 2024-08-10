@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -19,18 +20,28 @@ public class Background {
 //	private float bx,by,fx,fy;
 //	private int yOff = 210;
 //	AssetsManager assetsManager;
-	GamePanel game;
 	Color backgroundColor;
 	KeyManager keyManager;
 	
 	public Background(Color color) {
-		this.game = game;
 		backgroundColor = color;
 		keyManager = KeyManager.getInstance();
 	}
 	
 	public void addLayer(BackImage bImg) {
 		layers.add(bImg);
+	}
+	public void addLayers(ArrayList<BackImage> bImgs){
+		layers.addAll(bImgs);
+	}
+
+	/**
+	 add all the images in the path to the background, using their names (or regex) as the backImage speed parameters
+	 @param path The path of the directory containing all the layer images
+	 @param regex The regular expression that corresponds to the speed of the backimage
+	 */
+	public void addLayerFolder(String path, String regex) {
+		//Don't think this is needed
 	}
 	public void moveLeft() {
 		for(BackImage b: layers)

@@ -26,7 +26,7 @@ public class Tileset {
 			loadTileset(path);
 		} catch (ParserConfigurationException | SAXException | IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
-			System.out.println("bruh");
+			System.out.println("An error occurred while reading the tileset.");
 			e.printStackTrace();
 		}
 	}
