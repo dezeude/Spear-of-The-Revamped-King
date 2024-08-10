@@ -88,40 +88,17 @@ public class Level {
 		enemies = new ArrayList<>();
 		npcs = new ArrayList<>();
 		doors = new ArrayList<>();
-
-		tileMap = new TileMap(path, this);
 		background = new Background(new Color(126, 146, 176));
-
-		// add the background layers
-		BackImage b = new BackImage(path + "layers/Layer8.png", 0.1f, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
-		b = new BackImage(path + "layers/Layer7.png", 0.2f, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
-		b = new BackImage(path + "layers/Layer6.png", 0.4f, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
-		b = new BackImage(path + "layers/Layer5.png", 0.4f, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
-		b = new BackImage(path + "layers/Layer4.png", 0.4f, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
-		b = new BackImage(path + "layers/Layer3.png", 0.6f, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
-		b = new BackImage(path + "layers/Layer2.png", 0.8f, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
-		b = new BackImage(path + "layers/Layer1.png", 1, 0, 210, 928, 793 - 210 - 65);
-		background.addLayer(b);
-
+		tileMap = new TileMap(path, this);
 		curLevel = this;
 	}
 
 	public void update() {
 		p.update();
+		if(p.canRemove){
+			//change gamestate
+			//TODO: make gamestates use the same FSM as CreatureState and PlayerState
+		}
 
 		// loop through doors
 		for(Door door: doors) {
@@ -337,5 +314,9 @@ public class Level {
 	public void addDoor(Rectangle bounds, String name) {
 		doors.add(new Door(bounds, name));
 	}
+
+	public String getPath(){return this.path;}
+
+	public Background getBackground(){return this.background;}
 
 }

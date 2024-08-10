@@ -9,23 +9,24 @@ import com.sotk.managers.AssetsManager;
 public class BackImage {
 	private BufferedImage img;
 	private float x, x2, speed;
-	GamePanel game;
-	
+	private int xOff, yOff;
+	/**
+	 * Constructs an object with two image positions that draw the images.
+	 */
 	public BackImage(String path, float speed) {
-		this.x = 0;
-		this.x2 = GamePanel.getGraphicsWidth();
-		this.game = game;
+		this.x = 0; //first image
+		this.x2 = GamePanel.getGraphicsWidth(); //second image
 		this.speed = speed;
 		img = AssetsManager.loadImage(path);
 	}
 	
-	public BackImage(String path, float speed, int xOff, int yOff, int widthOff, int heightOff) {
+	public BackImage(String path, float speed, int xOff, int yOff) {
 		this.x = 0;
 		this.x2 = GamePanel.getGraphicsWidth();
-		this.game = game;
 		this.speed = speed;
 		img = AssetsManager.loadImage(path);
-		img = img.getSubimage(xOff, yOff, widthOff, heightOff);
+		this.xOff = xOff;
+		this.yOff = yOff;
 	}
 	
 	public void crop(int xOff, int yOff, int widthOff, int heightOff) {
@@ -33,7 +34,7 @@ public class BackImage {
 	}
 	
 	public void moveLeft() {//moves the background to the right, but gives the feeling of the scene moving left.
-		if((int)x == 0) 
+		if((int)x == 0)
 			x2 = -GamePanel.getGraphicsWidth();
 		if((int)x2 == 0)
 			x = -GamePanel.getGraphicsWidth();
@@ -52,9 +53,9 @@ public class BackImage {
 	
 	public void render(Graphics g) {
 		//first image
-		g.drawImage(img, (int)x, -GamePanel.getGraphicsHeight() / 4, GamePanel.getGraphicsWidth() + 1, GamePanel.getGraphicsHeight(), null); 
+		g.drawImage(img, (int)x + xOff,yOff, null);
 		//+1 width to fix background gap
 		//second image
-		g.drawImage(img, (int)x2, -GamePanel.getGraphicsHeight() / 4, GamePanel.getGraphicsWidth(), GamePanel.getGraphicsHeight(), null);
+		g.drawImage(img, (int)x2, yOff, null);
 	}
 }

@@ -24,7 +24,7 @@ import com.sotk.states.State;
 public class GamePanel extends JPanel
 		implements Runnable, KeyListener, MouseListener, FocusListener, MouseMotionListener {
 	public final int bufferWidth = TileMap.TILELENGTH * 25;
-	public final int bufferHeight = TileMap.TILELENGTH * 14;
+	public final int bufferHeight = TileMap.TILELENGTH * 18;
 	private Thread thread;
 	private boolean running;
 	private State gameState;
@@ -127,22 +127,6 @@ public class GamePanel extends JPanel
 
 		return new Vector2i(x, y);
 	}
-
-//	public void drawToOffScreen() {
-//		gOffscreen = offScreenBuffer.getGraphics();
-//		gOffscreen.setColor(Color.white);
-//		gOffscreen.fillRect(0, 0, offScreenBuffer.getWidth(), offScreenBuffer.getHeight());
-//		gameState.render(gOffscreen);
-//		gOffscreen.dispose();
-//	}
-//	
-//	public void drawToScreen() {
-//		gScreen = getGraphics();
-//		gScreen.fillRect(0, 0, Width, Height);
-//		gScreen.drawImage(offScreenBuffer, 0, 0, Width, Height, null);
-//		gScreen.dispose();
-//		
-//	}
 
 	@Override
 	public void paintComponent(Graphics g) {
