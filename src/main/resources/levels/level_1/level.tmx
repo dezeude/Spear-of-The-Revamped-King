@@ -3,10 +3,18 @@
  <editorsettings>
   <chunksize width="50" height="50"/>
  </editorsettings>
- <tileset firstgid="1" source="../Tilesets/Terrain.tsx"/>
- <tileset firstgid="257" source="../Tilesets/Props.tsx"/>
- <tileset firstgid="1281" source="../Tilesets/Collisions.tsx"/>
- <tileset firstgid="1282" source="../Tilesets/Magic-Cliffs-Environment by ansimuz.tsx"/>
+ <tileset firstgid="1" name="Terrain" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="../Assets/TX Tileset Ground.png" width="512" height="512"/>
+ </tileset>
+<tileset firstgid="257" name="Props" tilewidth="32" tileheight="32" tilecount="1024" columns="32">
+ <image source="../Assets/TX Village Props.png" width="1024" height="1024"/>
+</tileset>
+ <tileset firstgid="1281" name="Collisions" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../Assets/Collision.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="1282" name="Magic-Cliffs-Environment by ansimuz" tilewidth="32" tileheight="32" tilecount="290" columns="29">
+  <image source="../Assets/Magic-Cliffs-Environment by ansimuz.png" width="928" height="320"/>
+ </tileset>
  <imagelayer id="19" name="Background8" locked="1" offsetx="-56" offsety="-278.9" parallaxx="0.1" parallaxy="0">
   <image source="layers/Layer8.png" width="928" height="793"/>
  </imagelayer>
@@ -134,7 +142,7 @@ ________________________________
 </property>
    </properties>
   </object>
-  <object id="6" name="Player" x="128.157" y="401.924" width="20" height="40">
+  <object id="6" name="Player" x="2294.68" y="266.872" width="20" height="40">
    <properties>
     <property name="extras" value=""/>
    </properties>

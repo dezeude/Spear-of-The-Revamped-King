@@ -42,7 +42,7 @@ public class TileMap {
         this.level = level;
         try {
             loadMap(levelPath + "level.tmx");
-            loadTileSet();
+            loadEmbedTilesets();
         } catch (NumberFormatException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -71,6 +71,17 @@ public class TileMap {
         }
         TileTypes = tileList.toArray();
 
+    }
+
+    private void loadEmbedTilesets(){
+        ArrayList<BufferedImage> tileList = new ArrayList<>();
+        NodeList tilesets = doc.getElementsByTagName("tileset");
+        for (int i = 0; i < tilesets.getLength(); i++){
+            Element tsEl = (Element) tilesets.item(i);
+            Tileset ts = new Tileset(tsEl);
+            tileList.addAll(Arrays.asList(ts.getTileTypes()));
+        }
+        TileTypes = tileList.toArray();
     }
 
     private int[] ToIntArray(String[] str) {
