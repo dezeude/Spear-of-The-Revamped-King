@@ -47,6 +47,7 @@ Below are the assets I used with the authors's names.
 - Legacy-Fantasy-VL.1 - High Forest by Anokolisa
 - Magic-Cliffs-Environment by ansimuz
 - Medieval King Pack 2 by LuizMelo
+- Moon Graveyard by Anokolisa
 
 ## Tiled
 SOTK Revamped uses a tool called [Tiled](https://www.mapeditor.org/) to create the levels and organize them in a way that can be easily be inputted to the game.

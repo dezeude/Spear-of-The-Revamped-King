@@ -44,9 +44,9 @@ public class BackImage {
 	
 	public void moveRight() { //moves the background to the left, but gives the feeling of the scene moving right.
 		if((int)x == 0)
-			x2 = GamePanel.getGraphicsWidth();
+			x2 = img.getWidth();
 		if((int)x2 == 0)
-			x = GamePanel.getGraphicsWidth();
+			x = img.getWidth();
 		x -= speed;
 		x2 -= speed;
 	}
