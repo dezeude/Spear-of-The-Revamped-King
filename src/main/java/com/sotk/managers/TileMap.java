@@ -64,7 +64,7 @@ public class TileMap {
         for (int i = 0; i < tilesets.getLength(); i++) {
             Element tilesetElement = (Element) tilesets.item(i);
             String tsPath = "/" + tilesetElement.getAttribute("source");
-            Tileset ts = new Tileset(tsPath);
+            Tileset ts = new Tileset(tsPath, this.level);
             // add the tiles to the TileTypes
 //			System.out.println(ts.getTileTypes());
             tileList.addAll(Arrays.asList(ts.getTileTypes()));
@@ -73,12 +73,12 @@ public class TileMap {
 
     }
 
-    private void loadEmbedTilesets(){
+    private void loadEmbedTilesets() {
         ArrayList<BufferedImage> tileList = new ArrayList<>();
         NodeList tilesets = doc.getElementsByTagName("tileset");
-        for (int i = 0; i < tilesets.getLength(); i++){
+        for (int i = 0; i < tilesets.getLength(); i++) {
             Element tsEl = (Element) tilesets.item(i);
-            Tileset ts = new Tileset(tsEl);
+            Tileset ts = new Tileset(tsEl, this.level);
             tileList.addAll(Arrays.asList(ts.getTileTypes()));
         }
         TileTypes = tileList.toArray();
@@ -127,11 +127,9 @@ public class TileMap {
         for (int i = 0; i < imgLayers.getLength(); i++) {
             Node o = imgLayers.item(i);
             Element imglayer = (Element) o;
-            System.out.println(imglayer.getAttribute("name"));
             float parallaxX = Float.parseFloat(imglayer.getAttribute("parallaxx"));
             int offsetX = (int) Math.round(Double.parseDouble(imglayer.getAttribute("offsetx")));
             int offsetY = (int) Math.round(Double.parseDouble(imglayer.getAttribute("offsety")));
-            System.out.println(parallaxX);
             NodeList images = imglayer.getChildNodes();
             for (int j = 0; j < images.getLength(); j++) {
                 if (images.item(j).getNodeType() == Node.ELEMENT_NODE) {
@@ -218,10 +216,6 @@ public class TileMap {
         SmapData.toArray(mapData);
 
         return mapData;
-    }
-
-    public void loadTMXMap() {
-        System.out.println(TileMap.class.getResource("/").getPath());
     }
 
     public static int[][] getMap() {

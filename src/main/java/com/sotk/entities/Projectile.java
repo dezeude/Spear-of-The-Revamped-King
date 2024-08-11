@@ -7,48 +7,50 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 public abstract class Projectile extends Entity {
-	protected float mass = 1.0f;
-	protected BufferedImage sprite;
+    protected float mass = 1.0f;
+    protected BufferedImage sprite;
 
-	public Vector2f velocity;
-	public Vector2f resultantForce;
+    public Vector2f velocity;
+    public Vector2f resultantForce;
 
-	public static Vector2f gravity = new Vector2f(0, .981f / 2);
-	
-	protected Creature owner;
+    public static Vector2f gravity = new Vector2f(0, .981f / 2);
 
-	public Projectile(int x, int y, float vx, float vy, BufferedImage sheet, Creature owner) {
-		position.set(x, y);
-		velocity = new Vector2f();
-		resultantForce = new Vector2f(vx, vy);
-		this.sprite = sheet;
-		this.owner=owner;
-	}
+    protected Creature owner;
 
-	public void update() {
-		Vector2f temp = new Vector2f();
-		gravity.mul(mass, temp);
-		applyForce(temp);
+    public Projectile(int x, int y, float vx, float vy, BufferedImage sheet, Creature owner) {
+        position.set(x, y);
+        velocity = new Vector2f();
+        resultantForce = new Vector2f(vx, vy);
+        this.sprite = sheet;
+        this.owner = owner;
+    }
 
-		resultantForce.div(mass);
-		velocity.add(resultantForce);
-		position.add((int) velocity.x, (int) velocity.y);
-		resultantForce.zero();
-	}
+    public void update() {
+        Vector2f temp = new Vector2f();
+        gravity.mul(mass, temp);
+        applyForce(temp);
 
-	public void applyForce(Vector2f force) {
-		resultantForce.add(force.div(mass), resultantForce);
+        resultantForce.div(mass);
+        velocity.add(resultantForce);
+        position.add((int) velocity.x, (int) velocity.y);
+        resultantForce.zero();
+    }
+
+    public void applyForce(Vector2f force) {
+        resultantForce.add(force.div(mass), resultantForce);
 //		System.out.println("Force applied");
-	}
-	
-public static Vector2f projectUontoV(Vector2f u, Vector2f v) {
-		float top = u.dot(v);
-		float bottom = v.dot(v);
-		Vector2f result = new Vector2f();
-		v.mul(top/bottom,result);
-		return result;
-	}
+    }
 
-public Creature getOwner() {return owner;}
+    public static Vector2f projectUontoV(Vector2f u, Vector2f v) {
+        float top = u.dot(v);
+        float bottom = v.dot(v);
+        Vector2f result = new Vector2f();
+        v.mul(top / bottom, result);
+        return result;
+    }
+
+    public Creature getOwner() {
+        return owner;
+    }
 
 }
